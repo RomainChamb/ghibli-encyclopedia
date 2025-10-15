@@ -11,8 +11,14 @@ I am doing it because I want to practice and level up my ATDD skills
 
 **Contributor:** [Romain](https://github.com/RomainChamb)
 
-**Licence:** MIT Licence
-
 ## Documentation
 
 Read the [documentation](https://romainchamb.github.io/ghibli-encyclopedia/)
+
+## Project Board
+
+See the [project board](https://github.com/users/RomainChamb/projects/6)
+
+## License
+
+MIT Licence
