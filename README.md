@@ -1,5 +1,7 @@
 # Ghibli Encyclopedia
 
+[![pages-build-deployment](https://github.com/RomainChamb/ghibli-encyclopedia/actions/workflows/pages/pages-build-deployment/badge.svg)](https://github.com/RomainChamb/ghibli-encyclopedia/actions/workflows/pages/pages-build-deployment)
+
 ## Informations
 
 **Context:** This project is an ATDD Sandbox project. It is part of [Valentina Jemuović](https://www.linkedin.com/in/valentinajemuovic) 
