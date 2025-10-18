@@ -8,8 +8,8 @@ Monolith (MVC App)
 
 ```mermaid
 flowchart LR
-    A(["Gihbli Encyclopedia MVC App"])
-    A --> B{"Gihbli API"}
+    A(["Ghibli Encyclopedia MVC App"])
+    A --> B{"Ghibli API"}
     A --> C{"Clock"}
 ```
 
