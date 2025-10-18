@@ -7,3 +7,5 @@ P
  docs/images/use-case-diagram.svg,d/c/dc7c3cd132b1745bd84702f31121cd95d9d3e715
 =
 docs/index.md,0/b/0b3e33619677413fe8f879987c9e0357046fe604
+K
+docs/system-architecture.md,8/d/8d20fd9a67ee171c4c479c92a4594bbbabbd9be6

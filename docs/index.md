@@ -4,3 +4,4 @@ This is the documentation for the project [Ghibli Encyclopedia](https://github.c
 
 Table of contents :
 - [System Behaviour](system-behaviour.md)
+- [System Architecture](system-architecture.md)
