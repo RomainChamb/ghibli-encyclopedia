@@ -5,7 +5,7 @@
 <img src="images/use-case-diagram.svg" alt="Use Case Diagram" />
 
 Primary Actor :
-- User
+- Visitor
 
 Secondary Actor :
 - Gihbli Api
@@ -19,15 +19,15 @@ View movie list
 
 ### Primary Actor
 
-User
+Visitor
 
 ### Goal
 
-The user successfully view the movie list
+The visitor successfully view the movie list
 
 ### Main success scenario
 
-1. The user access to the application page
+1. The visitor access to the application page
 2. The system display the movie list
 
 ## Use Case Narrative: Filter movie list
@@ -38,14 +38,14 @@ Filter the movie list
 
 ### Goal
 
-The user can filter the movie list by movie title
+The visitor can filter the movie list by movie title
 
 ### Preconditions
-- The user has accessed the application page and view the movie list
+- The visitor has accessed the application page and view the movie list
 
 ### Main success scenario
 
-1. The user enter a movie name in the search bar
+1. The visitor enter a movie name in the search bar
 2. The system display only the movie corresponding to the search keyword
 
 ## Use Case Narrative : View movie details
@@ -56,13 +56,13 @@ View the movie details
 
 ### Goal
 
-The user can view the movie details
+The visitor can view the movie details
 
 ### Preconditions
-- The user has accessed the application page and view the movie list
+- The visitor has accessed the application page and view the movie list
 
 ### Main success scenario
-1. The user click on one movie
+1. The visitor click on one movie
 2. The system fetch the movie details from the API
 3. The system display the movie details
 
@@ -74,20 +74,20 @@ Add movie to favorite
 
 ### Goal
 
-The user can add a movie to his favorite
+The visitor can add a movie to his favorite
 
 ### Preconditions
-- The user has accessed the application page and view the movie list
+- The visitor has accessed the application page and view the movie list
 
 ### Main success scenario
-1. The user click on the add to favorite button
+1. The visitor click on the add to favorite button
 2. The system retrieve the actual date
 3. The system save the movie to favorite
-4. notification inform the user that the movie has been added to his favorite
+4. notification inform the visitor that the movie has been added to his favorite
 
 ### Postconditions
 - The favorite is saved into the system
-- The user receive a notification
+- The visitor receive a notification
 
 ## Use Case Narrative : Remove movie from favorite
 
@@ -97,19 +97,19 @@ Remove movie from favorite
 
 ### Goal
 
-The user can remove a movie from his favorite
+The visitor can remove a movie from his favorite
 
 ### Preconditions
-- The user has accessed the application page and view the movie list
+- The visitor has accessed the application page and view the movie list
 
 ### Main success scenario
-1. The user click on the remove from favorite button
+1. The visitor click on the remove from favorite button
 2. The system remove the movie from favorite
-3. A notification inform the user that the movie has been removed from his favorite
+3. A notification inform the visitor that the movie has been removed from his favorite
 
 ### Postconditions
 - The favorite is removed from the system
-- The user receive a notification
+- The visitor receive a notification
 
 ## Use Case Narrative : View favorite
 
@@ -119,12 +119,12 @@ View favorite
 
 ### Goal
 
-The user can view his favorite
+The visitor can view his favorite
 
 ### Preconditions
-- The user has accessed the application page and view the movie list
+- The visitor has accessed the application page and view the movie list
 
 ### Main success
-1. The user click on the favorite button
-2. The system redirect the user to the favorite page
+1. The visitor click on the favorite button
+2. The system redirect the visitor to the favorite page
 3. The system display his favorite
