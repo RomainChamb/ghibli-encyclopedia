@@ -2,10 +2,11 @@
 
 [![pages-build-deployment](https://github.com/RomainChamb/ghibli-encyclopedia/actions/workflows/pages/pages-build-deployment/badge.svg)](https://github.com/RomainChamb/ghibli-encyclopedia/actions/workflows/pages/pages-build-deployment)
 
-This project is an ATDD Sandbox project. It is part of [Valentina Jemuović](https://www.linkedin.com/in/valentinajemuovic) 
-[ATDD Accelerator](https://atdd-accelerator.optivem.com/) program.
+## Background context
 
-I am doing it because I want to practice and level up my ATDD skills
+This repository contains the code for the Gihbli Encyclopedia project, developed as part of the [ATDD Accelerator Training Program](https://atdd-accelerator.optivem.com/) created by [Valentina Jemuović](https://www.linkedin.com/in/valentinajemuovic).
+
+This ATDD Sandbox Project is used to practice what we learn during the teaching sessions.
 
 ## Documentation
 
