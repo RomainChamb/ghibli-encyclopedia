@@ -23,4 +23,4 @@ MIT Licence
 ## Contributors
 
 - [Romain Chambonnier](https://github.com/RomainChamb)
-- [Valentina Jemuović](https://www.linkedin.com/in/valentinajemuovic) as ATDD Coach
+- [Valentina Jemuović](https://github.com/valentinajemuovic) as ATDD Coach
