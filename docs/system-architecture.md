@@ -13,6 +13,8 @@ flowchart LR
     A --> C{"Clock"}
 ```
 
+_Note: Install the [Mermaid Previewer](https://chromewebstore.google.com/detail/mermaid-previewer) to view the diagram._
+
 ## Tech Stack
 - **Programming Language:** Java + Spring Boot + Thymeleaf
 - **Database:** H2
