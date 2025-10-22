@@ -52,6 +52,10 @@ jobs:
       run: ./gradlew build
       working-directory: monolith
 
+    - name: Downcase REPO
+      run: |
+        echo "REPO=${GITHUB_REPOSITORY,,}" >>${GITHUB_ENV}
+
     - name: Publish Docker Image
       id: publish
       uses: optivem/publish-docker-image-action@v1
@@ -60,7 +64,7 @@ jobs:
         image-name: monolith
         registry: ghcr.io
         registry-username: ${{ github.actor }}
-        image-namespace: ${{ github.repository }}
+        image-namespace: ${{ env.REPO }}
         image-latest-tag: latest
         commit-sha: ${{ github.sha }}
         dockerfile: Dockerfile
