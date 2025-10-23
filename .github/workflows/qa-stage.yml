@@ -33,13 +33,18 @@ jobs:
     outputs:
       image-urls: ${{ steps.resolve-images.outputs.image-urls }}
     steps:
+      - name: Downcase Repository and Owner
+        run: |
+          echo "REPO_OWNER=${GITHUB_REPOSITORY_OWNER,,}" >> $GITHUB_ENV
+          echo "REPO_NAME=${GITHUB_REPOSITORY##*/}" >> $GITHUB_ENV
+
       - name: Resolve Docker Images
         id: resolve-images
         uses: optivem/resolve-docker-images-action@v1
         with:
           tag: ${{ inputs.version }}
           base-image-urls: |
-            ghcr.io/${{ github.repository_owner }}/${{ github.event.repository.name }}/monolith
+            ghcr.io/${{ env.REPO_OWNER }}/${{ env.REPO_NAME }}/monolith
 
   deployment:
     needs: [check-release-exists, resolve-docker-images]
