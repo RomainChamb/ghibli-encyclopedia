@@ -54,13 +54,18 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
+      - name: Downcase Repository and Owner
+        run: |
+          echo "REPO_OWNER=${GITHUB_REPOSITORY_OWNER,,}" >> $GITHUB_ENV
+          echo "REPO_NAME=${GITHUB_REPOSITORY##*/}" >> $GITHUB_ENV
+
       - name: Resolve Docker Images
         id: resolve-images
         uses: optivem/resolve-docker-images-action@v1
         with:
           tag: ${{ inputs.version }}
           base-image-urls: |
-            ghcr.io/${{ github.repository_owner }}/${{ github.event.repository.name }}/monolith
+            ghcr.io/${{ env.REPO_OWNER }}/${{ env.REPO_NAME }}/monolith
 
   tag-docker-images:
     needs: [generate-production-version, check-release-exists, resolve-docker-images]
