@@ -1,4 +1,4 @@
-package com.optivem.atddaccelerator.template.systemtest.smoketests;
+package fr.barbebroux.ghibliencyclopedia.systemtest.smoketests;
 
 import com.microsoft.playwright.*;
 import org.junit.jupiter.api.*;

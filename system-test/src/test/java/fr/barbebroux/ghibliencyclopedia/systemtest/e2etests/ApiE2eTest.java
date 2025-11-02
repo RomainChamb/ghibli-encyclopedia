@@ -1,4 +1,4 @@
-package com.optivem.atddaccelerator.template.systemtest.e2etests;
+package fr.barbebroux.ghibliencyclopedia.systemtest.e2etests;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;

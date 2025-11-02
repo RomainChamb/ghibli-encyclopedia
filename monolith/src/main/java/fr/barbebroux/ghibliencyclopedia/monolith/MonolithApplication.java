@@ -1,4 +1,4 @@
-package com.optivem.atddaccelerator.template.monolith;
+package fr.barbebroux.ghibliencyclopedia.monolith;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

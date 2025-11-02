@@ -1,4 +1,4 @@
-package com.optivem.atddaccelerator.template.monolith;
+package fr.barbebroux.ghibliencyclopedia.monolith;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

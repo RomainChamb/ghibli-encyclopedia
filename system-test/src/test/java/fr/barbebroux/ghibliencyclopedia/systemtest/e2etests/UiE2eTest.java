@@ -1,4 +1,4 @@
-package com.optivem.atddaccelerator.template.systemtest.e2etests;
+package fr.barbebroux.ghibliencyclopedia.systemtest.e2etests;
 
 import com.microsoft.playwright.*;
 import org.junit.jupiter.api.Test;

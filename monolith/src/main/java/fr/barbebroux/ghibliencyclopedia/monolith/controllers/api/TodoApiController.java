@@ -1,6 +1,6 @@
-package com.optivem.atddaccelerator.template.monolith.controllers.api;
+package fr.barbebroux.ghibliencyclopedia.monolith.controllers.api;
 
-import com.optivem.atddaccelerator.template.monolith.models.Todo;
+import fr.barbebroux.ghibliencyclopedia.monolith.models.Todo;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

@@ -1,4 +1,4 @@
-package com.optivem.atddaccelerator.template.systemtest.smoketests;
+package fr.barbebroux.ghibliencyclopedia.systemtest.smoketests;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
