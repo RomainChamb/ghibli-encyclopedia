@@ -4,10 +4,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
-public class TodoWebController {
+public class MovieWebController {
 
-    @GetMapping("/todos")
+    @GetMapping("/movies")
     public String todos() {
-        return "todos.html";
+        return "movies.html";
     }
 }

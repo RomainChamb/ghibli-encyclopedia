@@ -23,5 +23,6 @@
         <SOURCES />
       </library>
     </orderEntry>
+    <orderEntry type="library" scope="TEST" name="Gradle: com.microsoft.playwright:playwright:1.44.0" level="project" />
   </component>
 </module>
