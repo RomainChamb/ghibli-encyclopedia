@@ -1,50 +1,32 @@
-# Monolith (Java)
+# Seed4J Sample Application
 
-This is a sample monolithic application written in Java.
+## Prerequisites
 
-## Instructions
+### Node.js and NPM
 
-Open up the 'monolith' folder
+Before you can build this project, you must install and configure the following dependencies on your machine:
 
-```shell
-cd monolith
+[Node.js](https://nodejs.org/): We use Node to run a development web server and build the project.
+Depending on your system, you can install Node either from source or as a pre-packaged bundle.
+
+After installing Node, you should be able to run the following command to install development tools.
+You will only need to run this command when dependencies change in [package.json](package.json).
+
+```
+npm install
 ```
 
-Check that you have Powershell 7
+## Local environment
 
-```shell
-$PSVersionTable.PSVersion
-```
 
-Set the JAVA_HOME environment variable to point to your JDK 21 installation. Check that it's set correctly
+<!-- seed4j-needle-localEnvironment -->
 
-```shell
-echo $env:JAVA_HOME
-```
+## Start up
 
-Ensure you have JDK 21 installed
 
-```shell
-java -version
-```
+<!-- seed4j-needle-startupCommand -->
 
-Build the application using Gradle
+## Documentation
 
-```shell
-.\gradlew build
-```
 
-Run the application
-
-```shell
-.\gradlew bootRun
-```
-
-Rebuild and restart the application
-
-```shell
-.\gradlew build && .\gradlew bootRun
-```
-
-App should now be running on:
-http://localhost:8080/
+<!-- seed4j-needle-documentation -->

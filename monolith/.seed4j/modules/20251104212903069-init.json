@@ -1,0 +1,12 @@
+{
+  "module" : "init",
+  "date" : "2025-11-04T21:29:03.069455338Z",
+  "properties" : {
+    "packageName" : "com.mycompany.myapp",
+    "projectName" : "Seed4J Sample Application",
+    "baseName" : "seed4jSampleApplication",
+    "nodePackageManager" : "npm",
+    "endOfLine" : "lf",
+    "indentSize" : 2
+  }
+}
