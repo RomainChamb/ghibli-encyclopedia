@@ -1,10 +1,91 @@
 /* You can add global styles to this file, and also import other style files */
+:root {
+  /* === Light Mode === */
+  --ghibli-bg: #FAF7F2;
+  --ghibli-surface: #FFFFFF;
+  --ghibli-primary: #2E8B57;
+  --ghibli-secondary: #F6B28E;
+  --ghibli-accent: #3B4752;
+  --ghibli-text: #222528;
+  --ghibli-muted: #9CA3A8;
+  --ghibli-success: #2F6B2F;
+  --ghibli-danger: #C94C36;
+
+  --radius: 12px;
+  --shadow: 0 4px 12px rgba(0,0,0,0.08);
+  --transition: 0.25s ease;
+}
+
+
+header {
+  background: var(--ghibli-accent);
+  color: white;
+  padding: 1rem 1.5rem;
+  text-align: center;
+}
+
+header img {
+  position: absolute;
+  left: 1.5rem;
+}
 
 html,
 body {
   height: 100%;
 }
+
 body {
   margin: 0;
-  font-family: Roboto, 'Helvetica Neue', sans-serif;
+  background: var(--ghibli-bg);
+  color: var(--ghibli-text);
+  font-family: "Sergeo UI", Roboto, system-ui, sans-serif;
+  line-height: 1.6;
 }
+
+.btn {
+  display: inline-block;
+  background: var(--ghibli-primary);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius);
+  padding: 0.6rem 1rem;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 1rem;
+  transition: background var(--transition);
+}
+.btn:hover {
+  background: #26724a; /* slightly darker */
+}
+
+footer {
+  text-align: center;
+  padding: 1rem;
+  color: var(--ghibli-muted);
+  font-size: 0.9rem;
+}
+
+.card {
+  background: var(--ghibli-surface);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 1rem 1.25rem;
+  transition: transform var(--transition);
+}
+.card:hover {
+  transform: translateY(-2px);
+}
+
+a {
+  color: var(--ghibli-primary);
+  text-decoration: none;
+  transition: color var(--transition);
+}
+a:hover {
+  color: var(--ghibli-secondary);
+}
+
+/*h1, h2, h3, h4 {
+  color: var(--ghibli-accent);
+  margin-top: 0;
+}*/

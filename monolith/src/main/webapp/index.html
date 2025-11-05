@@ -2,15 +2,28 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <title>Seed4J Sample Application</title>
+    <title>Ghibli Encyclopedia</title>
     <base href="/" />
-    <meta name="description" content="Seed4J Sample Application" />
+    <meta name="description" content="ghibli Encyclopedia" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="preconnect" href="https://fonts.gstatic.com" />
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons&display=swap" rel="stylesheet" />
   </head>
-  <body class="mat-typography">
-    <seed-root></seed-root>
+  <header>
+    <img
+      alt="Ghibli logo"
+      src="../../../../content/images/ghibli-logo.webp"
+      width="100"
+      height="100"
+      priority
+    />
+    <h1>Ghibli Encyclopedia : A sandbox project to practice ATDD</h1>
+  </header>
+  <body>
+    <app-root></app-root>
   </body>
+  <footer>
+    Data from <a href="https://ghibliapi.vercel.app/">Ghibli API</a>
+  </footer>
 </html>
