@@ -17,4 +17,10 @@ describe('App Component', () => {
     fixture = TestBed.createComponent(App);
     comp = fixture.componentInstance;
   });
+
+  describe('dummy test', () => {
+    it('should be true', () => {
+      expect(true).toBe(true);
+    });
+  });
 });
