@@ -1,25 +1,25 @@
 package fr.barbebroux.ghibliencyclopedia.monolith.controllers.api;
 
-import fr.barbebroux.ghibliencyclopedia.monolith.models.Todo;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
 @RestController
 @RequestMapping("/api")
-public class TodoApiController {
+public class MovieApiController {
 
-    @Value("${todos.api.host}")
-    private String todosApiHost;
+    @Value("${movie.api.host}")
+    private String movieApiHost;
 
     private final RestTemplate restTemplate = new RestTemplate();
 
-    @GetMapping("/todos/{id}")
-    public Todo getTodo(@PathVariable("id") int id) {
-        String url = todosApiHost + "/todos/" + id;
-        return restTemplate.getForObject(url, Todo.class);
+    @GetMapping("/movies")
+    public ResponseEntity<Object> getMovies() {
+        String url = movieApiHost + "/films/" ;
+        Object response = restTemplate.getForObject(url, Object.class);
+        return ResponseEntity.ok(response);
     }
 }

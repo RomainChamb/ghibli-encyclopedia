@@ -37,7 +37,7 @@ type MovieApi = {
 export class MovieList {
   private readonly _http = inject(HttpClient);
 
-  movies = toSignal(this._http.get<Movie[]>('https://ghibliapi.vercel.app/films').pipe(map(toMovieList)), {initialValue: []});
+  movies = toSignal(this._http.get<Movie[]>('/api/movies').pipe(map(toMovieList)), {initialValue: []});
 
 }
 
