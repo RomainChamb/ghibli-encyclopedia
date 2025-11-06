@@ -29,7 +29,7 @@ import {Movie} from "./movie"
           <p>Original Title Romanized: {{_movie.originalTitleRomanised}}</p>
           <p>Description: {{_movie.description}}</p>
           <p>Release Date: {{_movie.releaseDate}}</p>
-          <p>Running time: {{_movie.runningTime}}</p>
+          <p>Running time: {{_movie.runningTime}} seconds</p>
           <p>RT Score: {{_movie.rtScore}}</p>
       </section>
       <section>

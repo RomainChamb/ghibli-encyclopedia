@@ -6,9 +6,9 @@ export type Movie = {
   description: string;
   director: string;
   producer: string;
-  releaseDate: string;
-  runningTime: string;
-  rtScore: string;
+  releaseDate: number;
+  runningTime: number;
+  rtScore: number;
   people: string[];
   species: string[];
   locations: string[];
