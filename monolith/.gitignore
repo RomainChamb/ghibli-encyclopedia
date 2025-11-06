@@ -135,3 +135,6 @@ Desktop.ini
 .scannerwork/
 # Maven Wrapper
 !.mvn/wrapper/maven-wrapper.jar
+# Angular
+.angular/
+.nx/
