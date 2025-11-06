@@ -37,7 +37,7 @@ jobs:
     - name: Setup Java
       uses: actions/setup-java@v4
       with:
-        java-version: 17
+        java-version: 21
         distribution: temurin
 
     - name: Setup Gradle
@@ -52,15 +52,15 @@ jobs:
     - name: Setup Node.js
       uses: actions/setup-node@v4
       with:
-        node-version: 22
+        node-version: 24
 
     - name: Install Angular dependencies
       run: npm ci
-      working-directory: monolith/src/main/webapp
+      working-directory: monolith
 
     - name: Build Angular app
       run: npm run build:ng -- --configuration production
-      working-directory: monolith/src/main/webapp
+      working-directory: monolith
 
     - name: Build with Gradle Wrapper
       run: ./gradlew build
