@@ -1,0 +1,8 @@
+logging:
+  level:
+    fr:
+      barbebroux:
+        ghibliencyclopedia: INFO
+spring:
+  application:
+    name: ghibliEncyclopedia
