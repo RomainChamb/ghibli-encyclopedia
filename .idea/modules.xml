@@ -3,7 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/ghibli-encyclopedia.iml" filepath="$PROJECT_DIR$/.idea/ghibli-encyclopedia.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/monolith.iml" filepath="$PROJECT_DIR$/.idea/modules/monolith.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/monolith.main.iml" filepath="$PROJECT_DIR$/.idea/modules/monolith.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/monolith.test.iml" filepath="$PROJECT_DIR$/.idea/modules/monolith.test.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/system-test.iml" filepath="$PROJECT_DIR$/.idea/modules/system-test.iml" />

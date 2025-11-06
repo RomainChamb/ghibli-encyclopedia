@@ -1,22 +1,11 @@
-import { NgOptimizedImage } from '@angular/common';
-import { Component, OnInit, signal } from '@angular/core';
-import { RouterModule } from '@angular/router';
-
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { MatMenuModule } from '@angular/material/menu';
-import { MatToolbarModule } from '@angular/material/toolbar';
+import {Component} from '@angular/core';
+import {RouterModule} from '@angular/router';
 
 @Component({
-  selector: 'seed-root',
-  templateUrl: './app.html',
-  imports: [RouterModule, MatMenuModule, MatToolbarModule, MatIconModule, MatButtonModule, NgOptimizedImage],
-  styleUrl: './app.css',
+  selector: 'app-root',
+  template: `<router-outlet />`,
+  imports: [RouterModule],
 })
-export class App implements OnInit {
-  appName = signal('');
-
-  ngOnInit(): void {
-    this.appName.set('ghibliEncyclopedia');
-  }
+export class App{
 }
+
