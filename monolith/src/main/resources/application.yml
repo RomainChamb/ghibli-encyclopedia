@@ -1,7 +1,0 @@
-spring:
-  application:
-    name: monolith
-
-movie:
-  api:
-    host: ${MOVIE_API_HOST:https://ghibliapi.vercel.app}
