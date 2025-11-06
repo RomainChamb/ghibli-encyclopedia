@@ -59,7 +59,7 @@ jobs:
       working-directory: monolith
 
     - name: Build Angular app
-      run: npm run build:ng -- --configuration production
+      run: npm run build
       working-directory: monolith
 
     - name: Build with Gradle Wrapper
