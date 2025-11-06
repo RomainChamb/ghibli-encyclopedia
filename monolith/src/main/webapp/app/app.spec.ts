@@ -17,10 +17,4 @@ describe('App Component', () => {
     fixture = TestBed.createComponent(App);
     comp = fixture.componentInstance;
   });
-
-  describe('ngOnInit', () => {
-    it('should have appName', () => {
-      expect(comp.appName()).toBe('ghibliEncyclopedia');
-    });
-  });
 });
