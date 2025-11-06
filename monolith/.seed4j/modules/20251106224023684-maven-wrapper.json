@@ -1,0 +1,14 @@
+{
+  "module" : "maven-wrapper",
+  "date" : "2025-11-06T22:40:23.684035080Z",
+  "properties" : {
+    "packageName" : "fr.barbebroux.ghibliencyclopedia",
+    "projectName" : "Ghibli Encyclopedia",
+    "baseName" : "ghibliEncyclopedia",
+    "nodePackageManager" : "npm",
+    "endOfLine" : "lf",
+    "indentSize" : 2,
+    "serverPort" : 8080,
+    "springConfigurationFormat" : "yaml"
+  }
+}
