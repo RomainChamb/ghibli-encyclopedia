@@ -40,5 +40,6 @@ npm install
 
 - [Package types](documentation/package-types.md)
 - [Assertions](documentation/assertions.md)
+- [Logs Spy](documentation/logs-spy.md)
 
 <!-- seed4j-needle-documentation -->
