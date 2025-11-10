@@ -69,7 +69,6 @@ export class MovieListItem {
   toggleFavorite(id: string) {
     this._http.post<FavoriteResponse>(`api/favorites`, {id: id}).subscribe({
       next: (response) => {
-        console.log("Response :", response)
         this.isError.set(false);
         this.notification.set(response.message);
         setTimeout(() => this.notification.set(null), 3000);
