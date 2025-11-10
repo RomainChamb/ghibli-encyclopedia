@@ -1,5 +1,6 @@
-import {Component, input} from "@angular/core";
+import {Component, inject, input, signal} from "@angular/core";
 import {Movie} from "./movie"
+import {HttpClient} from "@angular/common/http";
 
 @Component({
   selector: 'app-movie-list-item',
@@ -17,6 +18,8 @@ import {Movie} from "./movie"
         font-size: 0.95rem;
         color: var(--ghibli-text);
       }
+      .notification { color: green; margin-top: 0.5rem; font-weight: bold; }
+      .error { color: red; margin-top: 0.5rem; font-weight: bold; }
     }
   `,
   template: `
@@ -25,17 +28,17 @@ import {Movie} from "./movie"
       <h2>{{_movie.title}}</h2>
       <section>
         <h3>Movie Details</h3>
-          <p>Original Title: {{_movie.originalTitle}}</p>
-          <p>Original Title Romanized: {{_movie.originalTitleRomanised}}</p>
-          <p>Description: {{_movie.description}}</p>
-          <p>Release Date: {{_movie.releaseDate}}</p>
-          <p>Running time: {{_movie.runningTime}} seconds</p>
-          <p>RT Score: {{_movie.rtScore}}</p>
+        <p>Original Title: {{_movie.originalTitle}}</p>
+        <p>Original Title Romanized: {{_movie.originalTitleRomanised}}</p>
+        <p>Description: {{_movie.description}}</p>
+        <p>Release Date: {{_movie.releaseDate}}</p>
+        <p>Running time: {{_movie.runningTime}} seconds</p>
+        <p>RT Score: {{_movie.rtScore}}</p>
       </section>
       <section>
         <h3>Credits</h3>
-          <p>Director: {{_movie.director}}</p>
-          <p>Producer: {{_movie.producer}}</p>
+        <p>Director: {{_movie.director}}</p>
+        <p>Producer: {{_movie.producer}}</p>
       </section>
       <section>
         <h3>Related Links</h3>
@@ -46,9 +49,42 @@ import {Movie} from "./movie"
           <li><a href="{{_movie.vehicles}}">Vehicles</a></li>
         </ul>
       </section>
+      <button (click)="toggleFavorite(_movie.id)" class="btn">Add to favorite</button>
+      <!-- Notification -->
+      @if (notification()) {
+        <div [class.error]="isError()" class="notification">
+          {{ notification() }}
+        </div>
+      }
     </div>
   `,
 })
 export class MovieListItem {
+  private readonly _http = inject(HttpClient);
   readonly movie = input.required<Readonly<Movie>>();
+
+  notification = signal<string | null>(null);
+  isError = signal(false);
+
+  toggleFavorite(id: string) {
+    this._http.post<FavoriteResponse>(`api/favorites`, {id: id}).subscribe({
+      next: (response) => {
+        console.log("Response :", response)
+        this.isError.set(false);
+        this.notification.set(response.message);
+        setTimeout(() => this.notification.set(null), 3000);
+      },
+      error: () => {
+        this.isError.set(true);
+        this.notification.set('Failed to add favorites');
+        setTimeout(() => this.notification.set(null), 3000);
+      }
+    });
+  }
+}
+
+type FavoriteResponse = {
+  movieId: string;
+  message: string;
+  added: boolean;
 }

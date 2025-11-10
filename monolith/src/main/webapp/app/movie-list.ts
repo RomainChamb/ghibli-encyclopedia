@@ -3,7 +3,6 @@ import {MovieListItem} from "./movie-list-item";
 import {Movie} from "./movie"
 import {HttpClient} from "@angular/common/http";
 import {map} from "rxjs";
-import {AsyncPipe, JsonPipe} from "@angular/common";
 import {toSignal} from "@angular/core/rxjs-interop";
 
 type MovieApi = {

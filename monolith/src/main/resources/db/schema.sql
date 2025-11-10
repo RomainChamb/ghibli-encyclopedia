@@ -1,0 +1,5 @@
+CREATE TABLE favorites (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  movie_id VARCHAR(100) NOT NULL,
+  date DATE NOT NULL
+);
