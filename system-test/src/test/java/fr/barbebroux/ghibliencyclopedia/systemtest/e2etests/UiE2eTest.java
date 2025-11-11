@@ -115,7 +115,7 @@ class UiE2eTest {
             favoriteButton.click();
 
             // 6. Check that the notification appears
-            Locator notification = page.locator("div.notiviation");
+            Locator notification = page.locator("div.notification");
             notification.waitFor(new Locator.WaitForOptions().setTimeout(3000));
             assertThat(notification.isVisible())
                     .as("Notification should appear after adding favorite")
@@ -125,7 +125,7 @@ class UiE2eTest {
             System.out.println("Notification text: " + notificationText);
             assertThat(notificationText)
                     .as("Notification should contain text")
-                    .isEqualTo("Added to favorite");
+                    .isEqualTo(" Added to favorite ");
 
 
             browser.close();
@@ -170,21 +170,26 @@ class UiE2eTest {
 
 
             // Identify first film
-            Locator firstMovieCard = movieItems.first();
+            Locator movieCard = movieItems.nth(5);
 
             // 5. Click on favorite button
-            Locator favoriteButton = firstMovieCard.locator("button.btn");
+            Locator favoriteButton = movieCard.locator("button.btn");
             assertThat(favoriteButton.isVisible())
                     .as("Add to favorite button should be visible")
                     .isTrue();
             favoriteButton.click();
 
             // 6. Check that the notification appears
-            Locator notification = page.locator("div.notiviation");
+            Locator notification = movieCard.locator("div.notification");
             notification.waitFor(new Locator.WaitForOptions().setTimeout(3000));
             assertThat(notification.isVisible())
                     .as("Notification should appear after adding favorite")
                     .isTrue();
+            String notificationText = notification.textContent();
+            System.out.println("Notification text: " + notificationText);
+            assertThat(notificationText)
+                    .as("Notification should contain text")
+                    .isEqualTo(" Added to favorite ");
 
             // 7. Click on favorite button to remove from favorite
             favoriteButton.click();
@@ -192,13 +197,12 @@ class UiE2eTest {
                     .as("Notification should appear after adding favorite")
                     .isTrue();
 
-            Locator removedNotification = page.locator("div.notiviation");
-            String notificationText = notification.textContent();
-            System.out.println("Notification text: " + notificationText);
-            assertThat(notificationText)
+            Locator removedNotification = movieCard.locator("div.notification");
+            String removedNotificationText = removedNotification.textContent();
+            System.out.println("Notification text: " + removedNotificationText);
+            assertThat(removedNotificationText)
                     .as("Notification should contain text")
-                    .isEqualTo("Removed from favorite");
-
+                    .isEqualTo(" Removed from favorite ");
 
             browser.close();
         }

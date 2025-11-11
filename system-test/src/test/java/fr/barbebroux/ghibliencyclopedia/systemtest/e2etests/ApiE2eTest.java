@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class ApiE2eTest {
 
     @Test
-    void getTodos_shouldReturnTodoWithExpectedFormat() throws Exception {
+    void getMovies_shouldReturnMovieWithExpectedFormat() throws Exception {
         // DISCLAIMER: This is an example of a badly written test
         // which unfortunately simulates real-life software test projects.
         // This is the starting point for our ATDD Accelerator exercises.
