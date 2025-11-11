@@ -98,12 +98,11 @@ jobs:
       run: chmod +x ./gradlew
       working-directory: system-test
 
-    - name: Make Maven Wrapper executable
-      run: chmod +x ./mvnw
-      shell: bash
-
     - name: Install Playwright dependencies (Java)
-      run: sudo ./mvnw -e -Dexec.mainClass=com.microsoft.playwright.CLI -Dexec.args="install-deps"
+      run: |
+        sudo mvn exec:java -e \
+          -Dexec.mainClass=com.microsoft.playwright.CLI \
+          -Dexec.args="install-deps"
       working-directory: system-test
 
     - name: Run Acceptance Tests
