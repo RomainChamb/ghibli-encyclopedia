@@ -41,7 +41,7 @@ jobs:
         java-version: 25
         cache: maven
     
-    - name: Make Gradle Wrapper executable
+    - name: Make Maven Wrapper executable
       run: chmod +x ./mvnw
       shell: bash
       working-directory: monolith
