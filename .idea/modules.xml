@@ -5,7 +5,6 @@
       <module fileurl="file://$PROJECT_DIR$/.idea/ghibli-encyclopedia.iml" filepath="$PROJECT_DIR$/.idea/ghibli-encyclopedia.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/monolith.main.iml" filepath="$PROJECT_DIR$/.idea/modules/monolith.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/monolith.test.iml" filepath="$PROJECT_DIR$/.idea/modules/monolith.test.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/system-test.iml" filepath="$PROJECT_DIR$/.idea/modules/system-test.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/system-test.main.iml" filepath="$PROJECT_DIR$/.idea/modules/system-test.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/system-test.test.iml" filepath="$PROJECT_DIR$/.idea/modules/system-test.test.iml" />
     </modules>

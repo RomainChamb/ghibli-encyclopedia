@@ -1,6 +1,10 @@
 package fr.barbebroux.ghibliencyclopedia.systemtest.e2etests;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
+
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -20,7 +24,7 @@ class ApiE2eTest {
         // Arrange
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(new URI("http://localhost:8080/api/todos/4"))
+                .uri(new URI("http://localhost:8080/api/movies"))
                 .GET()
                 .build();
 
@@ -33,13 +37,24 @@ class ApiE2eTest {
         String responseBody = response.body();
         
         // Verify JSON structure contains expected fields
-        assertTrue(responseBody.contains("\"userId\""), "Response should contain userId field");
-        assertTrue(responseBody.contains("\"id\""), "Response should contain id field");
-        assertTrue(responseBody.contains("\"title\""), "Response should contain title field");
-        assertTrue(responseBody.contains("\"completed\""), "Response should contain completed field");
+        assertThat(responseBody)
+                .as("Response should contain id field")
+                .contains("\"id\"");
+
+        assertThat(responseBody)
+                .as("Response should contain original title field")
+                .contains("\"original_title\"");
+
+        assertThat(responseBody)
+                .as("Response should contain director field")
+                .contains("\"director\"");
         
-        // Verify the specific todo has id 4
-        assertTrue(responseBody.contains("\"id\":4") || responseBody.contains("\"id\": 4"), 
-                   "Response should contain id with value 4");
+        // Verify the result size
+        ObjectMapper objectMapper = new ObjectMapper();
+        JsonNode moviesArray = objectMapper.readTree(responseBody);
+        assertThat(moviesArray.isArray()).as("Response should be a JSON array").isTrue();
+        assertThat(moviesArray.size())
+                .as("Response should contain 22 movies")
+                .isEqualTo(22);
     }
 }
