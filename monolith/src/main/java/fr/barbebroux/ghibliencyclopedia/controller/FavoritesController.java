@@ -1,6 +1,7 @@
 package fr.barbebroux.ghibliencyclopedia.controller;
 
-import org.apache.commons.lang3.StringUtils;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
 import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -9,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDate;
-import java.util.Collections;
 import java.util.List;
 
 @RestController
@@ -23,7 +23,7 @@ public class FavoritesController {
   }
 
   @PostMapping(value = "favorites", consumes = "application/json", produces = "application/json")
-  public ResponseEntity<FavoriteResponseDTO> toggleFavorite(@RequestBody FavoriteRequestDto request) {
+  public ResponseEntity<FavoriteResponseDTO> toggleFavorite(@Valid @RequestBody FavoriteRequestDto request) {
     String movieId = request.getId();
 
     String sqlSelect = "SELECT id from favorites where movie_id = ?";
@@ -49,6 +49,7 @@ public class FavoritesController {
   }
 
   private static class FavoriteRequestDto {
+    @NotBlank
     private String id;
 
     public FavoriteRequestDto() {
