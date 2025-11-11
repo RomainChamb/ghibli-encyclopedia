@@ -75,7 +75,7 @@ jobs:
 
     steps:
     - name: Checkout Repository
-      uses: actions/checkout@v4
+      uses: actions/checkout@v5
 
     - name: Deploy System
       id: deploy-system
@@ -98,11 +98,16 @@ jobs:
       run: chmod +x ./gradlew
       working-directory: system-test
 
-    - name: Install Playwright dependencies (Java)
+    - name: Setup Node
+      uses: actions/setup-node@v5
+
+    - name: Install Playwright Browsers
+      run: npx playwright install --with-deps
+      working-directory: system-test
+
+    - name: Install missing dependencies
       run: |
-        sudo mvn exec:java -e \
-          -Dexec.mainClass=com.microsoft.playwright.CLI \
-          -Dexec.args="install-deps"
+        sudo apt-get update && sudo apt-get install -y libvpx7
       working-directory: system-test
 
     - name: Run Acceptance Tests
