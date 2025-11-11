@@ -1,9 +1,9 @@
 package fr.barbebroux.ghibliencyclopedia.controller;
 
-import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,7 +23,7 @@ public class FavoritesController {
   }
 
   @PostMapping(value = "favorites", consumes = "application/json", produces = "application/json")
-  public ResponseEntity<FavoriteResponseDTO> toggleFavorite(@Valid @RequestBody FavoriteRequestDto request) {
+  public ResponseEntity<FavoriteResponseDTO> toggleFavorite(@Validated @RequestBody FavoriteRequestDto request) {
     String movieId = request.getId();
 
     String sqlSelect = "SELECT id from favorites where movie_id = ?";
