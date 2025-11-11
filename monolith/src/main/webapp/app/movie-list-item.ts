@@ -49,10 +49,10 @@ import {HttpClient} from "@angular/common/http";
           <li><a href="{{_movie.vehicles}}">Vehicles</a></li>
         </ul>
       </section>
-      <button (click)="toggleFavorite(_movie.id)" class="btn" id="favorite">Add to favorite</button>
+      <button (click)="toggleFavorite(_movie.id)" class="btn">Add to favorite</button>
       <!-- Notification -->
       @if (notification()) {
-        <div [class.error]="isError()" class="notification" id="notification">
+        <div [class.error]="isError()" class="notification">
           {{ notification() }}
         </div>
       }

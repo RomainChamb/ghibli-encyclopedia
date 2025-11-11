@@ -15,7 +15,7 @@ import {RouterLink} from "@angular/router";
   `,
   template: `
     <div class="title">
-      <button class="btn" [routerLink]="['/movies']" id="movie-list-btn">Access the movie list</button>
+      <button class="btn" [routerLink]="['/movies']">Access the movie list</button>
     </div>
   `
 })

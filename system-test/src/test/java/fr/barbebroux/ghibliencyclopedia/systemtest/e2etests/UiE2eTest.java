@@ -21,7 +21,7 @@ class UiE2eTest {
             page.navigate("http://localhost:8080");
             
             // 1. Check there's a button with id
-            Locator movieListButton = page.locator("#movie-list-button");
+            Locator movieListButton = page.locator("button.btn");
             assertThat(movieListButton.isVisible()).as("Movie list access button is visible").isTrue();
             
             // 2. Click the access button
@@ -29,23 +29,24 @@ class UiE2eTest {
 
             
             // 3. Wait for the result to appear and contain actual data
-            Locator movieListResult = page.locator("#movie-list");
-            movieListResult.waitFor(new Locator.WaitForOptions().setTimeout(5000));
-            assertThat(movieListResult.isVisible()).isTrue();
+            Locator movieList = page.locator("app-movie-list");
+            movieList.waitFor(new Locator.WaitForOptions().setTimeout(5000));
+            assertThat(movieList.isVisible()).isTrue();
 
 
             // 4. Wait for movie items to load (Angular rendering + API call)
             page.waitForTimeout(3000);
-            int movieCount = movieListResult.count();
+            Locator movieItems = page.locator("app-movie-list-item");
+            int movieCount = movieItems.count();
             System.out.println("Movies found: " + movieCount);
             assertThat(movieCount).as("22 movie items should be rendered").isEqualTo(22);
 
             // 5. Verify each movie item contains required fields
-            Locator movieTitles = page.locator("#movie-list h2");
+            Locator movieTitles = page.locator("app-movie-list-item h2");
             assertThat(movieTitles.count()).as("Each movie should have a title").isEqualTo(22);
 
             // Check specific text fields inside the first movie card
-            Locator firstMovieCard = movieListResult.first();
+            Locator firstMovieCard = movieItems.first();
             String firstCardText = firstMovieCard.textContent();
             System.out.println("First movie card content: " + firstCardText);
 
@@ -80,7 +81,7 @@ class UiE2eTest {
             page.navigate("http://localhost:8080");
 
             // 1. Check there's a button with id
-            Locator movieListButton = page.locator("#movie-list-button");
+            Locator movieListButton = page.locator("button.btn");
             assertThat(movieListButton.isVisible())
                     .as("Movie list access button is visible")
                     .isTrue();
@@ -90,32 +91,31 @@ class UiE2eTest {
 
 
             // 3. Wait for the result to appear and contain actual data
-            Locator movieListResult = page.locator("#movie-list");
-            movieListResult.waitFor(new Locator.WaitForOptions().setTimeout(5000));
-            assertThat(movieListResult.isVisible()).isTrue();
+            Locator movieList = page.locator("app-movie-list");
+            movieList.waitFor(new Locator.WaitForOptions().setTimeout(5000));
+            assertThat(movieList.isVisible()).isTrue();
 
 
             // 4. Wait for movie items to load (Angular rendering + API call)
             page.waitForTimeout(3000);
-            int movieCount = movieListResult.count();
+            Locator movieItems = page.locator("app-movie-list-item");
+            int movieCount = movieItems.count();
             System.out.println("Movies found: " + movieCount);
-            assertThat(movieCount)
-                    .as("22 movie items should be rendered")
-                    .isEqualTo(22);
+            assertThat(movieCount).as("22 movie items should be rendered").isEqualTo(22);
 
 
             // Identify first film
-            Locator firstMovieCard = movieListResult.first();
+            Locator firstMovieCard = movieItems.first();
 
             // 5. Click on favorite button
-            Locator favoriteButton = firstMovieCard.locator("#favorite");
+            Locator favoriteButton = firstMovieCard.locator("button.btn");
             assertThat(favoriteButton.isVisible())
                     .as("Add to favorite button should be visible")
                     .isTrue();
             favoriteButton.click();
 
             // 6. Check that the notification appears
-            Locator notification = page.locator("#notification");
+            Locator notification = page.locator("div.notiviation");
             notification.waitFor(new Locator.WaitForOptions().setTimeout(3000));
             assertThat(notification.isVisible())
                     .as("Notification should appear after adding favorite")
@@ -146,7 +146,7 @@ class UiE2eTest {
             page.navigate("http://localhost:8080");
 
             // 1. Check there's a button with id
-            Locator movieListButton = page.locator("#movie-list-button");
+            Locator movieListButton = page.locator("button.btn");
             assertThat(movieListButton.isVisible())
                     .as("Movie list access button is visible")
                     .isTrue();
@@ -156,32 +156,31 @@ class UiE2eTest {
 
 
             // 3. Wait for the result to appear and contain actual data
-            Locator movieListResult = page.locator("#movie-list");
-            movieListResult.waitFor(new Locator.WaitForOptions().setTimeout(5000));
-            assertThat(movieListResult.isVisible()).isTrue();
+            Locator movieList = page.locator("app-movie-list");
+            movieList.waitFor(new Locator.WaitForOptions().setTimeout(5000));
+            assertThat(movieList.isVisible()).isTrue();
 
 
             // 4. Wait for movie items to load (Angular rendering + API call)
             page.waitForTimeout(3000);
-            int movieCount = movieListResult.count();
+            Locator movieItems = page.locator("app-movie-list-item");
+            int movieCount = movieItems.count();
             System.out.println("Movies found: " + movieCount);
-            assertThat(movieCount)
-                    .as("22 movie items should be rendered")
-                    .isEqualTo(22);
+            assertThat(movieCount).as("22 movie items should be rendered").isEqualTo(22);
 
 
             // Identify first film
-            Locator firstMovieCard = movieListResult.first();
+            Locator firstMovieCard = movieItems.first();
 
             // 5. Click on favorite button
-            Locator favoriteButton = firstMovieCard.locator("#favorite");
+            Locator favoriteButton = firstMovieCard.locator("button.btn");
             assertThat(favoriteButton.isVisible())
                     .as("Add to favorite button should be visible")
                     .isTrue();
             favoriteButton.click();
 
             // 6. Check that the notification appears
-            Locator notification = page.locator("#notification");
+            Locator notification = page.locator("div.notiviation");
             notification.waitFor(new Locator.WaitForOptions().setTimeout(3000));
             assertThat(notification.isVisible())
                     .as("Notification should appear after adding favorite")
@@ -193,7 +192,7 @@ class UiE2eTest {
                     .as("Notification should appear after adding favorite")
                     .isTrue();
 
-            Locator removedNotification = page.locator("#notification");
+            Locator removedNotification = page.locator("div.notiviation");
             String notificationText = notification.textContent();
             System.out.println("Notification text: " + notificationText);
             assertThat(notificationText)

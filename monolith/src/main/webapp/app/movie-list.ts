@@ -29,7 +29,7 @@ type MovieApi = {
   styles: ``,
   template : `
     @for (movie of movies(); track movie.id) {
-      <app-movie-list-item  [movie]="movie" id="movie-list"/>
+      <app-movie-list-item  [movie]="movie"/>
     }
   `
 })
