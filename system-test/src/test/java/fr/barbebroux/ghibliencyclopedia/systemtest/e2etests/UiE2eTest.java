@@ -18,7 +18,7 @@ class UiE2eTest {
             Page page = browser.newPage();
             
             // Navigate to the home page
-            page.navigate("http://localhost:9000");
+            page.navigate("http://localhost:8080");
             
             // 1. Check there's a button with id
             Locator movieListButton = page.locator("#movie-list-button");
@@ -77,7 +77,7 @@ class UiE2eTest {
             Page page = browser.newPage();
 
             // Navigate to the home page
-            page.navigate("http://localhost:9000");
+            page.navigate("http://localhost:8080");
 
             // 1. Check there's a button with id
             Locator movieListButton = page.locator("#movie-list-button");
@@ -143,7 +143,7 @@ class UiE2eTest {
             Page page = browser.newPage();
 
             // Navigate to the home page
-            page.navigate("http://localhost:9000");
+            page.navigate("http://localhost:8080");
 
             // 1. Check there's a button with id
             Locator movieListButton = page.locator("#movie-list-button");
