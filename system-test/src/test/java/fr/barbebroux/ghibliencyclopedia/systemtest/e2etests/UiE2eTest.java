@@ -115,7 +115,7 @@ class UiE2eTest {
             favoriteButton.click();
 
             // 6. Check that the notification appears
-            Locator notification = page.locator("div.notification");
+            Locator notification = firstMovieCard.locator("div.notification");
             notification.waitFor(new Locator.WaitForOptions().setTimeout(3000));
             assertThat(notification.isVisible())
                     .as("Notification should appear after adding favorite")
