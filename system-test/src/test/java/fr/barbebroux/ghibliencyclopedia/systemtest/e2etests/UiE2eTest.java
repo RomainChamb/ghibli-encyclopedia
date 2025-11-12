@@ -109,6 +109,7 @@ class UiE2eTest {
 
             // 5. Click on favorite button
             Locator favoriteButton = firstMovieCard.locator("#favorite");
+            favoriteButton.waitFor(new Locator.WaitForOptions().setTimeout(10000));
             assertThat(favoriteButton.isVisible())
                     .as("Add to favorite button should be visible")
                     .isTrue();
@@ -174,6 +175,7 @@ class UiE2eTest {
 
             // 5. Click on favorite button
             Locator favoriteButton = movieCard.locator("#favorite");
+            favoriteButton.waitFor(new Locator.WaitForOptions().setTimeout(10000));
             assertThat(favoriteButton.isVisible())
                     .as("Add to favorite button should be visible")
                     .isTrue();
