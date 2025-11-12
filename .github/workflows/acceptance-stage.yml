@@ -102,7 +102,7 @@ jobs:
       uses: actions/setup-node@v5
 
     - name: Install Playwright Browsers
-      run: npx playwright install --with-deps
+      run: npx playwright install-deps
       working-directory: system-test
 
     - name: Install missing dependencies
