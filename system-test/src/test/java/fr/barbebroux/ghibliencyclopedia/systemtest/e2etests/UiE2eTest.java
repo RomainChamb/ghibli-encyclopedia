@@ -108,15 +108,14 @@ class UiE2eTest {
             Locator firstMovieCard = movieItems.first();
 
             // 5. Click on favorite button
-            Locator favoriteButton = firstMovieCard.locator("#favorite");
-            favoriteButton.waitFor(new Locator.WaitForOptions().setTimeout(10000));
+            Locator favoriteButton = firstMovieCard.locator("button.btn");
             assertThat(favoriteButton.isVisible())
                     .as("Add to favorite button should be visible")
                     .isTrue();
             favoriteButton.click();
 
             // 6. Check that the notification appears
-            Locator notification = page.locator("div #notification");
+            Locator notification = page.locator("div.notification");
             notification.waitFor(new Locator.WaitForOptions().setTimeout(3000));
             assertThat(notification.isVisible())
                     .as("Notification should appear after adding favorite")
@@ -174,15 +173,14 @@ class UiE2eTest {
             Locator movieCard = movieItems.nth(5);
 
             // 5. Click on favorite button
-            Locator favoriteButton = movieCard.locator("#favorite");
-            favoriteButton.waitFor(new Locator.WaitForOptions().setTimeout(10000));
+            Locator favoriteButton = movieCard.locator("button.btn");
             assertThat(favoriteButton.isVisible())
                     .as("Add to favorite button should be visible")
                     .isTrue();
             favoriteButton.click();
 
             // 6. Check that the notification appears
-            Locator notification = movieCard.locator("div #notification");
+            Locator notification = movieCard.locator("div.notification");
             notification.waitFor(new Locator.WaitForOptions().setTimeout(3000));
             assertThat(notification.isVisible())
                     .as("Notification should appear after adding favorite")
@@ -199,7 +197,7 @@ class UiE2eTest {
                     .as("Notification should appear after removing favorite")
                     .isTrue();
 
-            Locator removedNotification = movieCard.locator("div #notification");
+            Locator removedNotification = movieCard.locator("div.notification");
             removedNotification.waitFor(new Locator.WaitForOptions().setTimeout(3000));
             String removedNotificationText = removedNotification.textContent();
             System.out.println("Notification text: " + removedNotificationText);
