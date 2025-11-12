@@ -105,10 +105,10 @@ jobs:
       run: npx playwright install-deps
       working-directory: system-test
 
-    - name: Install missing dependencies
-      run: |
-        sudo apt-get update && sudo apt-get install -y libvpx8
-      working-directory: system-test
+    #- name: Install missing dependencies
+    #  run: |
+    #    sudo apt-get update && sudo apt-get install -y libvpx8
+    #  working-directory: system-test
 
     - name: Run Acceptance Tests
       run: echo "Run Acceptance Tests"
