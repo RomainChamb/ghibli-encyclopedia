@@ -4,6 +4,14 @@ plugins {
 	id 'io.spring.dependency-management' version '1.1.7'
 }
 
+bootJar {
+    enabled = false
+}
+
+jar {
+    enabled = true
+}
+
 group = 'fr.barbebroux.ghibliencyclopedia.systemtest'
 version = '0.0.1-SNAPSHOT'
 description = 'ATDD Accelerator Template - System Test'
@@ -34,4 +42,13 @@ tasks.named('test') {
 		events "passed", "skipped", "failed"
 		showStandardStreams = true
 	}
+}
+
+// Task to run Playwright CLI install for Java
+tasks.register('playwrightInstall', JavaExec) {
+    group = 'playwright'
+    description = 'Installs Playwright browsers and driver'
+    classpath = sourceSets.test.runtimeClasspath
+    mainClass.set('com.microsoft.playwright.CLI')
+    args = ['install']
 }
