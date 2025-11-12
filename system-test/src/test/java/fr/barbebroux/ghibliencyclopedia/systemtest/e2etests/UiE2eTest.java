@@ -194,10 +194,11 @@ class UiE2eTest {
             // 7. Click on favorite button to remove from favorite
             favoriteButton.click();
             assertThat(notification.isVisible())
-                    .as("Notification should appear after adding favorite")
+                    .as("Notification should appear after removing favorite")
                     .isTrue();
 
             Locator removedNotification = movieCard.locator("div.notification");
+            removedNotification.waitFor(new Locator.WaitForOptions().setTimeout(3000));
             String removedNotificationText = removedNotification.textContent();
             System.out.println("Notification text: " + removedNotificationText);
             assertThat(removedNotificationText)
