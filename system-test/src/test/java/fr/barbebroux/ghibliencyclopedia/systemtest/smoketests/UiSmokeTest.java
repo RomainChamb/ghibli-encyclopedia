@@ -1,8 +1,11 @@
 package fr.barbebroux.ghibliencyclopedia.systemtest.smoketests;
 
 import com.microsoft.playwright.*;
+import com.microsoft.playwright.options.AriaRole;
+import net.bytebuddy.asm.Advice;
 import org.junit.jupiter.api.*;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -34,6 +37,44 @@ public class UiSmokeTest {
             assertTrue(pageContent.contains("<html"), "Response should contain HTML opening tag");
             assertTrue(pageContent.contains("</html>"), "Response should contain HTML closing tag");
             
+            browser.close();
+        }
+    }
+
+    @Test
+    void home_shouldDisplayAccessTheMovieListButton() {
+        try (Playwright playwright = Playwright.create()) {
+            Browser browser = playwright.chromium().launch();
+            Page page = browser.newPage();
+
+            page.navigate("http://localhost:8080/");
+
+            Locator button = page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Access the movie list"));
+
+            assertThat(button.isVisible()).isTrue();
+            browser.close();
+        }
+    }
+
+    @Test
+    void movieList_shouldDisplayTheMovies() {
+        try (Playwright playwright = Playwright.create()) {
+            Browser browser = playwright.chromium().launch(new BrowserType.LaunchOptions().setHeadless(false).setSlowMo(500));
+            Page page = browser.newPage();
+
+            page.navigate("http://localhost:8080/");
+
+            Locator button = page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Access the movie list"));
+            button.click();
+
+            page.waitForSelector("app-movie-list-item");
+
+            Locator movies = page.locator("app-movie-list-item");
+            int movieCount = movies.count();
+
+            assertThat(movieCount).isEqualTo(22);
+
+            assertThat(button.isVisible()).isTrue();
             browser.close();
         }
     }
