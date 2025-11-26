@@ -157,15 +157,13 @@ class UiE2eTest {
 
             // 3. Wait for the result to appear and contain actual data
             Locator movieList = page.locator("app-movie-list");
-            movieList.waitFor(new Locator.WaitForOptions().setTimeout(5000));
-            assertThat(movieList.isVisible()).isTrue();
+            movieList.waitFor();
 
 
             // 4. Wait for movie items to load (Angular rendering + API call)
-            page.waitForTimeout(3000);
             Locator movieItems = page.locator("app-movie-list-item");
+            page.waitForFunction("el => el.length >0", movieItems);
             int movieCount = movieItems.count();
-            System.out.println("Movies found: " + movieCount);
             assertThat(movieCount).as("22 movie items should be rendered").isEqualTo(22);
 
 
@@ -180,28 +178,20 @@ class UiE2eTest {
             favoriteButton.click();
 
             // 6. Check that the notification appears
-            Locator notification = movieCard.locator("div.notification");
-            notification.waitFor(new Locator.WaitForOptions().setTimeout(3000));
-            assertThat(notification.isVisible())
-                    .as("Notification should appear after adding favorite")
-                    .isTrue();
-            String notificationText = notification.textContent();
-            System.out.println("Notification text: " + notificationText);
-            assertThat(notificationText)
+            page.waitForFunction("el => el && el.textContent.trim() === 'Added to favorite'",
+                    movieCard.locator("div.notification"));
+            String addedText = movieCard.locator("div.notification").textContent().trim();
+            assertThat(addedText)
                     .as("Notification should contain text")
-                    .isEqualTo(" Added to favorite ");
+                    .isEqualTo("Added to favorite");
 
             // 7. Click on favorite button to remove from favorite
             favoriteButton.click();
-            assertThat(notification.isVisible())
-                    .as("Notification should appear after removing favorite")
-                    .isTrue();
+            page.waitForFunction("el => el && el.textContent.trim() === 'Removed from favorite'",
+                    movieCard.locator("div.notification"));
+            String removedText = movieCard.locator("div.notification").textContent().trim();
 
-            Locator removedNotification = movieCard.locator("div.notification");
-            removedNotification.waitFor(new Locator.WaitForOptions().setTimeout(3000));
-            String removedNotificationText = removedNotification.textContent();
-            System.out.println("Notification text: " + removedNotificationText);
-            assertThat(removedNotificationText)
+            assertThat(removedText)
                     .as("Notification should contain text")
                     .isEqualTo(" Removed from favorite ");
 
