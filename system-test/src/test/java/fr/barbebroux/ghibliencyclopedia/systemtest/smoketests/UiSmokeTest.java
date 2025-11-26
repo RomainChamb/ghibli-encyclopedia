@@ -59,7 +59,7 @@ public class UiSmokeTest {
     @Test
     void movieList_shouldDisplayTheMovies() {
         try (Playwright playwright = Playwright.create()) {
-            Browser browser = playwright.chromium().launch(new BrowserType.LaunchOptions().setHeadless(false).setSlowMo(500));
+            Browser browser = playwright.chromium().launch();
             Page page = browser.newPage();
 
             page.navigate("http://localhost:8080/");
