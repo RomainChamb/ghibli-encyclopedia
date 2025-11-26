@@ -161,8 +161,8 @@ class UiE2eTest {
 
 
             // 4. Wait for movie items to load (Angular rendering + API call)
+            page.waitForFunction("() => document.querySelectorAll('app-movie-list-item').length > 0");
             Locator movieItems = page.locator("app-movie-list-item");
-            page.waitForFunction("el => el.length >0", movieItems);
             int movieCount = movieItems.count();
             assertThat(movieCount).as("22 movie items should be rendered").isEqualTo(22);
 
@@ -178,8 +178,10 @@ class UiE2eTest {
             favoriteButton.click();
 
             // 6. Check that the notification appears
-            page.waitForFunction("el => el && el.textContent.trim() === 'Added to favorite'",
-                    movieCard.locator("div.notification"));
+            page.waitForFunction(
+                    "() => document.querySelectorAll('app-movie-list-item')[5]"
+                            + ".querySelector('div.notification')?.textContent.trim() === 'Added to favorite'"
+            );
             String addedText = movieCard.locator("div.notification").textContent().trim();
             assertThat(addedText)
                     .as("Notification should contain text")
@@ -187,13 +189,15 @@ class UiE2eTest {
 
             // 7. Click on favorite button to remove from favorite
             favoriteButton.click();
-            page.waitForFunction("el => el && el.textContent.trim() === 'Removed from favorite'",
-                    movieCard.locator("div.notification"));
+            page.waitForFunction(
+                    "() => document.querySelectorAll('app-movie-list-item')[5]"
+                            + ".querySelector('div.notification')?.textContent.trim() === 'Removed from favorite'"
+            );
             String removedText = movieCard.locator("div.notification").textContent().trim();
 
             assertThat(removedText)
                     .as("Notification should contain text")
-                    .isEqualTo(" Removed from favorite ");
+                    .isEqualTo("Removed from favorite");
 
             browser.close();
         }
