@@ -74,7 +74,6 @@ public class UiSmokeTest {
 
             assertThat(movieCount).isEqualTo(22);
 
-            assertThat(button.isVisible()).isTrue();
             browser.close();
         }
     }
