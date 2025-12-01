@@ -38,8 +38,8 @@ body {
   margin: 0;
   background: var(--ghibli-bg);
   color: var(--ghibli-text);
-  font-family: "Sergeo UI", Roboto, system-ui, sans-serif;
   line-height: 1.6;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
 .btn {
@@ -75,17 +75,3 @@ footer {
 .card:hover {
   transform: translateY(-2px);
 }
-
-a {
-  color: var(--ghibli-primary);
-  text-decoration: none;
-  transition: color var(--transition);
-}
-a:hover {
-  color: var(--ghibli-secondary);
-}
-
-/*h1, h2, h3, h4 {
-  color: var(--ghibli-accent);
-  margin-top: 0;
-}*/

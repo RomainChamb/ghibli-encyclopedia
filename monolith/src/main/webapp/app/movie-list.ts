@@ -24,12 +24,12 @@ type MovieApi = {
 }
 
 @Component({
-  selector: 'app-movie-list',
+  selector: 'seed-movie-list',
   imports: [MovieListItem],
   styles: ``,
   template : `
     @for (movie of movies(); track movie.id) {
-      <app-movie-list-item  [movie]="movie"/>
+      <seed-movie-list-item  [movie]="movie"/>
     }
   `
 })

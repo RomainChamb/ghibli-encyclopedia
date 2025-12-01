@@ -49,7 +49,7 @@ public class UiSmokeTest {
 
             page.navigate("http://localhost:8080/");
 
-            Locator button = page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Access the movie list"));
+            Locator button = page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Menu"));
 
             assertThat(button.isVisible()).isTrue();
             browser.close();
@@ -64,8 +64,10 @@ public class UiSmokeTest {
 
             page.navigate("http://localhost:8080/");
 
-            Locator button = page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Access the movie list"));
+            Locator button = page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Menu"));
             button.click();
+
+            page.getByRole(AriaRole.MENUITEM, new Page.GetByRoleOptions().setName("Movies List")).click();
 
             page.waitForSelector("app-movie-list-item");
 

@@ -3,7 +3,7 @@ import {Movie} from "./movie"
 import {HttpClient} from "@angular/common/http";
 
 @Component({
-  selector: 'app-movie-list-item',
+  selector: 'seed-movie-list-item',
   styles: `
     :host {
       padding: 1rem;

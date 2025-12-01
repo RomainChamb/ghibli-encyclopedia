@@ -1,6 +1,7 @@
 package fr.barbebroux.ghibliencyclopedia.systemtest.e2etests;
 
 import com.microsoft.playwright.*;
+import com.microsoft.playwright.options.AriaRole;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -21,11 +22,19 @@ class UiE2eTest {
             page.navigate("http://localhost:8080");
             
             // 1. Check there's a button with id
-            Locator movieListButton = page.locator("button.btn");
-            assertThat(movieListButton.isVisible()).as("Movie list access button is visible").isTrue();
-            
-            // 2. Click the access button
-            movieListButton.click();
+            Locator menuButton = page.getByRole(AriaRole.BUTTON,
+                    new Page.GetByRoleOptions().setName("Menu"));
+            assertThat(menuButton.isVisible())
+                    .as("Menu button is visible")
+                    .isTrue();
+
+            // 2. Open the menu
+            menuButton.click();
+
+            // 3. Click "Movies List" inside the Material menu
+            Locator moviesListMenuItem = page.getByRole(AriaRole.MENUITEM,
+                    new Page.GetByRoleOptions().setName("Movies List"));
+            moviesListMenuItem.click();
 
             
             // 3. Wait for the result to appear and contain actual data
@@ -81,13 +90,19 @@ class UiE2eTest {
             page.navigate("http://localhost:8080");
 
             // 1. Check there's a button with id
-            Locator movieListButton = page.locator("button.btn");
-            assertThat(movieListButton.isVisible())
-                    .as("Movie list access button is visible")
+            Locator menuButton = page.getByRole(AriaRole.BUTTON,
+                    new Page.GetByRoleOptions().setName("Menu"));
+            assertThat(menuButton.isVisible())
+                    .as("Menu button is visible")
                     .isTrue();
 
-            // 2. Click the access button
-            movieListButton.click();
+            // 2. Open the menu
+            menuButton.click();
+
+            // 3. Click "Movies List" inside the Material menu
+            Locator moviesListMenuItem = page.getByRole(AriaRole.MENUITEM,
+                    new Page.GetByRoleOptions().setName("Movies List"));
+            moviesListMenuItem.click();
 
 
             // 3. Wait for the result to appear and contain actual data
@@ -146,13 +161,19 @@ class UiE2eTest {
             page.navigate("http://localhost:8080");
 
             // 1. Check there's a button with id
-            Locator movieListButton = page.locator("button.btn");
-            assertThat(movieListButton.isVisible())
-                    .as("Movie list access button is visible")
+            Locator menuButton = page.getByRole(AriaRole.BUTTON,
+                    new Page.GetByRoleOptions().setName("Menu"));
+            assertThat(menuButton.isVisible())
+                    .as("Menu button is visible")
                     .isTrue();
 
-            // 2. Click the access button
-            movieListButton.click();
+            // 2. Open the menu
+            menuButton.click();
+
+            // 3. Click "Movies List" inside the Material menu
+            Locator moviesListMenuItem = page.getByRole(AriaRole.MENUITEM,
+                    new Page.GetByRoleOptions().setName("Movies List"));
+            moviesListMenuItem.click();
 
 
             // 3. Wait for the result to appear and contain actual data
