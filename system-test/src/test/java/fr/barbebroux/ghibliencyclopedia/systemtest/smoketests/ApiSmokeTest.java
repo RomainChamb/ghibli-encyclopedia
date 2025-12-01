@@ -36,7 +36,7 @@ class ApiSmokeTest {
 
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(new URI("http://localhost:8080/api/movies"))
+                .uri(new URI("https://ghibliapi.vercel.app/films"))
                 .GET()
                 .build();
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
