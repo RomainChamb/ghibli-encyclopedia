@@ -57,7 +57,7 @@ import {MatMenuModule} from "@angular/material/menu";
         <mat-menu #menu="matMenu">
           <button mat-menu-item [routerLink]="['/']" id="home">Home</button>
           <button mat-menu-item [routerLink]="['/movies']" id="movies">Movies List</button>
-          <button mat-menu-item id="favorites">Favorites</button>
+          <button mat-menu-item [routerLink]="['/favorites']" id="favorites">Favorites</button>
         </mat-menu>
       </header>
 

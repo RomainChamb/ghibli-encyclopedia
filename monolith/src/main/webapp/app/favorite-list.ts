@@ -1,9 +1,9 @@
-import {Component, inject} from "@angular/core";
-import {MovieListItem} from "./movie-list-item";
-import {Movie} from "./movie"
-import {HttpClient} from "@angular/common/http";
-import {map} from "rxjs";
-import {toSignal} from "@angular/core/rxjs-interop";
+import { HttpClient } from '@angular/common/http';
+import { Component, inject } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { Movie } from './movie';
+import { map } from 'rxjs';
+import { MovieListItem } from './movie-list-item';
 
 type MovieApi = {
   id: string;
@@ -24,20 +24,18 @@ type MovieApi = {
 }
 
 @Component({
-  selector: 'seed-movie-list',
+  selector: 'seed-favorite-list',
   imports: [MovieListItem],
   styles: ``,
-  template : `
+  template: `
     @for (movie of movies(); track movie.id) {
-      <seed-movie-list-item  [movie]="movie"/>
-    }
-  `
+      <seed-movie-list-item [movie]="movie" />
+    }`
 })
-export class MovieList {
+export class FavoriteList {
   private readonly _http = inject(HttpClient);
 
-  movies = toSignal(this._http.get<Movie[]>('/api/movies').pipe(map(toMovieList)), {initialValue: []});
-
+  movies = toSignal(this._http.get<Movie[]>('/api/favorites').pipe(map(toMovieList)), {initialValue: []});
 }
 
 const toMovieList = (input: unknown): Movie[] => {
@@ -63,21 +61,21 @@ const toMovieList = (input: unknown): Movie[] => {
 };
 
 const isMovieApi = (input: unknown): input is MovieApi => (typeof input === 'object'
-    && input !== null
-    && [
-      'id',
-      'title',
-      'original_title',
-      'original_title_romanised',
-      'description',
-      'director',
-      'producer',
-      'release_date',
-      'running_time',
-      'rt_score',
-      'people',
-      'species',
-      'locations',
-      'vehicles',
-    ].every((key) => key in input)
-  );
+  && input !== null
+  && [
+    'id',
+    'title',
+    'original_title',
+    'original_title_romanised',
+    'description',
+    'director',
+    'producer',
+    'release_date',
+    'running_time',
+    'rt_score',
+    'people',
+    'species',
+    'locations',
+    'vehicles',
+  ].every((key) => key in input)
+);
