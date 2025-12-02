@@ -38,20 +38,20 @@ class UiE2eTest {
 
             
             // 3. Wait for the result to appear and contain actual data
-            Locator movieList = page.locator("app-movie-list");
+            Locator movieList = page.locator("seed-movie-list");
             movieList.waitFor(new Locator.WaitForOptions().setTimeout(5000));
             assertThat(movieList.isVisible()).isTrue();
 
 
             // 4. Wait for movie items to load (Angular rendering + API call)
             page.waitForTimeout(3000);
-            Locator movieItems = page.locator("app-movie-list-item");
+            Locator movieItems = page.locator("seed-movie-list-item");
             int movieCount = movieItems.count();
             System.out.println("Movies found: " + movieCount);
             assertThat(movieCount).as("22 movie items should be rendered").isEqualTo(22);
 
             // 5. Verify each movie item contains required fields
-            Locator movieTitles = page.locator("app-movie-list-item h2");
+            Locator movieTitles = page.locator("seed-movie-list-item h2");
             assertThat(movieTitles.count()).as("Each movie should have a title").isEqualTo(22);
 
             // Check specific text fields inside the first movie card
@@ -106,14 +106,14 @@ class UiE2eTest {
 
 
             // 3. Wait for the result to appear and contain actual data
-            Locator movieList = page.locator("app-movie-list");
+            Locator movieList = page.locator("seed-movie-list");
             movieList.waitFor(new Locator.WaitForOptions().setTimeout(5000));
             assertThat(movieList.isVisible()).isTrue();
 
 
             // 4. Wait for movie items to load (Angular rendering + API call)
             page.waitForTimeout(3000);
-            Locator movieItems = page.locator("app-movie-list-item");
+            Locator movieItems = page.locator("seed-movie-list-item");
             int movieCount = movieItems.count();
             System.out.println("Movies found: " + movieCount);
             assertThat(movieCount).as("22 movie items should be rendered").isEqualTo(22);
@@ -177,13 +177,13 @@ class UiE2eTest {
 
 
             // 3. Wait for the result to appear and contain actual data
-            Locator movieList = page.locator("app-movie-list");
+            Locator movieList = page.locator("seed-movie-list");
             movieList.waitFor();
 
 
             // 4. Wait for movie items to load (Angular rendering + API call)
-            page.waitForFunction("() => document.querySelectorAll('app-movie-list-item').length > 0");
-            Locator movieItems = page.locator("app-movie-list-item");
+            page.waitForFunction("() => document.querySelectorAll('seed-movie-list-item').length > 0");
+            Locator movieItems = page.locator("seed-movie-list-item");
             int movieCount = movieItems.count();
             assertThat(movieCount).as("22 movie items should be rendered").isEqualTo(22);
 
@@ -200,7 +200,7 @@ class UiE2eTest {
 
             // 6. Check that the notification appears
             page.waitForFunction(
-                    "() => document.querySelectorAll('app-movie-list-item')[5]"
+                    "() => document.querySelectorAll('seed-movie-list-item')[5]"
                             + ".querySelector('div.notification')?.textContent.trim() === 'Added to favorite'"
             );
             String addedText = movieCard.locator("div.notification").textContent().trim();
@@ -211,7 +211,7 @@ class UiE2eTest {
             // 7. Click on favorite button to remove from favorite
             favoriteButton.click();
             page.waitForFunction(
-                    "() => document.querySelectorAll('app-movie-list-item')[5]"
+                    "() => document.querySelectorAll('seed-movie-list-item')[5]"
                             + ".querySelector('div.notification')?.textContent.trim() === 'Removed from favorite'"
             );
             String removedText = movieCard.locator("div.notification").textContent().trim();

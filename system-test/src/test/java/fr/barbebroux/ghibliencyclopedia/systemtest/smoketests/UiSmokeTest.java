@@ -59,7 +59,7 @@ public class UiSmokeTest {
     @Test
     void movieList_shouldDisplayTheMovies() {
         try (Playwright playwright = Playwright.create()) {
-            Browser browser = playwright.chromium().launch();
+            Browser browser = playwright.chromium().launch(new BrowserType.LaunchOptions().setHeadless(false));
             Page page = browser.newPage();
 
             page.navigate("http://localhost:8080/");
@@ -69,9 +69,9 @@ public class UiSmokeTest {
 
             page.getByRole(AriaRole.MENUITEM, new Page.GetByRoleOptions().setName("Movies List")).click();
 
-            page.waitForSelector("app-movie-list-item");
+            page.waitForSelector("seed-movie-list-item");
 
-            Locator movies = page.locator("app-movie-list-item");
+            Locator movies = page.locator("seed-movie-list-item");
             int movieCount = movies.count();
 
             assertThat(movieCount).isEqualTo(22);
