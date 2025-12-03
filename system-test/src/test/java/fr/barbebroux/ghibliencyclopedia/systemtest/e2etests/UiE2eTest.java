@@ -148,7 +148,7 @@ class UiE2eTest {
     }
 
     @Test
-    void RemoveMovieFromFavorite_shouldDisplayNotificationInUI() {
+    void removeMovieFromFavorite_shouldDisplayNotificationInUI() {
         // DISCLAIMER: This is an example of a badly written test
         // which unfortunately simulates real-life software test projects.
         // This is the starting point for our ATDD Accelerator exercises.

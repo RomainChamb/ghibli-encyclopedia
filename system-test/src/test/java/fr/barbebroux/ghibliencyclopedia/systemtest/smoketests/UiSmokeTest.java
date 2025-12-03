@@ -42,7 +42,7 @@ public class UiSmokeTest {
     }
 
     @Test
-    void home_shouldDisplayAccessTheMovieListButton() {
+    void home_shouldDisplayMenuButton() {
         try (Playwright playwright = Playwright.create()) {
             Browser browser = playwright.chromium().launch();
             Page page = browser.newPage();
