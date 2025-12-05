@@ -3,6 +3,8 @@ package fr.barbebroux.ghibliencyclopedia.systemtest.e2etests;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -55,5 +57,90 @@ class ApiE2eTest {
         assertThat(moviesArray.size())
                 .as("Response should contain 22 movies")
                 .isEqualTo(22);
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+            "2baf70d1-42bb-4437-b551-e5fed5a87abe, Castle in the Sky",
+            "12cfb892-aac0-4c5b-94af-521852e46d6a, Grave of the Fireflies"
+    })
+    void getMovieById_shouldReturnTheMovie(String movieId, String expectedTitle) throws Exception {
+        HttpClient client = HttpClient.newHttpClient();
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(new URI(String.format("http://localhost:8080/api/movies/%s", movieId)))
+                .GET()
+                .build();
+
+        // Act
+        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+
+        // Assert
+        assertThat(response.statusCode()).isEqualTo(200);
+
+        String responseBody = response.body();
+
+        // Parse JSON
+        ObjectMapper mapper = new ObjectMapper();
+        JsonNode json = mapper.readTree(responseBody);
+
+        // Assert exact fields
+        assertThat(json.get("id").asText()).as("Movie id should match").isEqualTo(movieId);
+
+        assertThat(json.get("title").asText()).as("Original title should match").isEqualTo(expectedTitle);
+    }
+
+    @Test
+    void getMovieById_shouldReturnErrorIfIdIsNotFound() throws Exception {
+        HttpClient client = HttpClient.newHttpClient();
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(new URI(String.format("http://localhost:8080/api/movies/%s", 1)))
+                .GET()
+                .build();
+
+        // Act
+        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+
+        assertThat(response.statusCode())
+                .as("Response for unknown ID should be 404 or 400")
+                .withFailMessage("Movie not found")
+                .isIn(400, 404);
+    }
+
+    @Test
+    void toggleFavorite_shouldReturnErrorIfIdIsNull() throws Exception {
+        String nullIdJson = "{\"id\": null}";
+
+        HttpClient client = HttpClient.newHttpClient();
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(new URI("http://localhost:8080/api/favorites"))
+                .header("Content-Type", "application/json")
+                .POST(HttpRequest.BodyPublishers.ofString(nullIdJson))
+                .build();
+
+        // Act
+        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+
+        assertThat(response.statusCode())
+                .as("Response for unknown ID should be 404 or 400")
+                .isIn(400, 404);
+    }
+
+    @Test
+    void toggleFavorite_shouldReturnErrorIfBodyTypeIsInvalid() throws Exception {
+        String nullIdJson = "{\"title\": \"Castle in the sky\"}";
+
+        HttpClient client = HttpClient.newHttpClient();
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(new URI("http://localhost:8080/api/favorites"))
+                .header("Content-Type", "application/json")
+                .POST(HttpRequest.BodyPublishers.ofString(nullIdJson))
+                .build();
+
+        // Act
+        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+
+        assertThat(response.statusCode())
+                .as("Response for unknown ID should be 404 or 400")
+                .isIn(400, 404);
     }
 }

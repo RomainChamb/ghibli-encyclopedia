@@ -228,7 +228,7 @@ class UiE2eTest {
     void getFavorites_ShouldDisplayOneFavorite() {
 
         try (Playwright playwright = Playwright.create()) {
-            Browser browser = playwright.chromium().launch(new BrowserType.LaunchOptions().setHeadless(false));
+            Browser browser = playwright.chromium().launch();
             Page page = browser.newPage();
 
             // Navigate to the home page
