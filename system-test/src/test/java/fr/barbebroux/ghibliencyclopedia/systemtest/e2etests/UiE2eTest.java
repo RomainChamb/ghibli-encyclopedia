@@ -263,19 +263,19 @@ class UiE2eTest {
 
 
             // Identify first film
-            Locator firstMovieCard = movieItems.first();
+            Locator lastMovieCard = movieItems.last();
 
-            String movieTitle = firstMovieCard.locator("h2").textContent();
+            String movieTitle = lastMovieCard.locator("h2").textContent();
 
             // 5. Click on favorite button
-            Locator favoriteButton = firstMovieCard.locator("button.btn");
+            Locator favoriteButton = lastMovieCard.locator("button.btn");
             assertThat(favoriteButton.isVisible())
                     .as("Add to favorite button should be visible")
                     .isTrue();
             favoriteButton.click();
 
             // 6. Check that the notification appears
-            Locator notification = firstMovieCard.locator("div.notification");
+            Locator notification = lastMovieCard.locator("div.notification");
             notification.waitFor(new Locator.WaitForOptions().setTimeout(3000));
             assertThat(notification.isVisible())
                     .as("Notification should appear after adding favorite")
