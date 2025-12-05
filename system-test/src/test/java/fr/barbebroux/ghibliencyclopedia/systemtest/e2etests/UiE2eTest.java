@@ -223,4 +223,87 @@ class UiE2eTest {
             browser.close();
         }
     }
+
+    @Test
+    void getFavorites_ShouldDisplayOneFavorite() {
+
+        try (Playwright playwright = Playwright.create()) {
+            Browser browser = playwright.chromium().launch();
+            Page page = browser.newPage();
+
+            // Navigate to the home page
+            page.navigate("http://localhost:8080");
+
+            // 1. Check there's a button with id
+            Locator menuButton = page.getByRole(AriaRole.BUTTON,
+                    new Page.GetByRoleOptions().setName("Menu"));
+            assertThat(menuButton.isVisible())
+                    .as("Menu button is visible")
+                    .isTrue();
+
+            // 2. Open the menu
+            menuButton.click();
+
+            // 3. Click "Movies List" inside the Material menu
+            Locator moviesListMenuItem = page.getByRole(AriaRole.MENUITEM,
+                    new Page.GetByRoleOptions().setName("Movies List"));
+            moviesListMenuItem.click();
+
+
+            // 3. Wait for the result to appear and contain actual data
+            Locator movieList = page.locator("seed-movie-list");
+            movieList.waitFor();
+
+
+            // 4. Wait for movie items to load (Angular rendering + API call)
+            page.waitForFunction("() => document.querySelectorAll('seed-movie-list-item').length > 0");
+            Locator movieItems = page.locator("seed-movie-list-item");
+            int movieCount = movieItems.count();
+            assertThat(movieCount).as("22 movie items should be rendered").isEqualTo(22);
+
+
+            // Identify first film
+            Locator movieCard = movieItems.nth(0);
+
+            String movieTitle = movieCard.locator("h2").textContent();
+
+            // 5. Click on favorite button
+            Locator favoriteButton = movieCard.locator("button.btn");
+            assertThat(favoriteButton.isVisible())
+                    .as("Add to favorite button should be visible")
+                    .isTrue();
+            favoriteButton.click();
+
+            // 6. Check that the notification appears
+            page.waitForFunction(
+                    "() => document.querySelectorAll('seed-movie-list-item')[0]"
+                            + ".querySelector('div.notification')?.textContent.trim() === 'Added to favorite'"
+            );
+            String addedText = movieCard.locator("div.notification").textContent().trim();
+            assertThat(addedText)
+                    .as("Notification should contain text")
+                    .isEqualTo("Added to favorite");
+
+            // 7. Navigate to the favorites
+            menuButton.click();
+            Locator moviesListMenuItem2 = page.getByRole(AriaRole.MENUITEM,
+                    new Page.GetByRoleOptions().setName("Favorites"));
+            moviesListMenuItem2.click();
+
+            Locator favoriteList = page.locator("seed-movie-list");
+            favoriteList.waitFor();
+
+            page.waitForFunction("() => document.querySelectorAll('seed-movie-list-item').length > 0");
+            Locator movieItems2 = page.locator("seed-movie-list-item");
+            int movieCount2 = movieItems2.count();
+            assertThat(movieCount2).as("22 movie items should be rendered").isEqualTo(1);
+
+            Locator favoriteCard = movieItems2.nth(0);
+
+            String favoriteTitle = favoriteCard.locator("h2").textContent();
+
+            assertThat(favoriteTitle).isEqualTo(favoriteCard);
+        }
+
+    }
 }
