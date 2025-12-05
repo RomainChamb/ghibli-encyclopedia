@@ -228,7 +228,7 @@ class UiE2eTest {
     void getFavorites_ShouldDisplayOneFavorite() {
 
         try (Playwright playwright = Playwright.create()) {
-            Browser browser = playwright.chromium().launch();
+            Browser browser = playwright.chromium().launch(new BrowserType.LaunchOptions().setHeadless(false));
             Page page = browser.newPage();
 
             // Navigate to the home page
@@ -263,26 +263,29 @@ class UiE2eTest {
 
 
             // Identify first film
-            Locator movieCard = movieItems.nth(0);
+            Locator firstMovieCard = movieItems.first();
 
-            String movieTitle = movieCard.locator("h2").textContent();
+            String movieTitle = firstMovieCard.locator("h2").textContent();
 
             // 5. Click on favorite button
-            Locator favoriteButton = movieCard.locator("button.btn");
+            Locator favoriteButton = firstMovieCard.locator("button.btn");
             assertThat(favoriteButton.isVisible())
                     .as("Add to favorite button should be visible")
                     .isTrue();
             favoriteButton.click();
 
             // 6. Check that the notification appears
-            page.waitForFunction(
-                    "() => document.querySelectorAll('seed-movie-list-item')[0]"
-                            + ".querySelector('div.notification')?.textContent.trim() === 'Added to favorite'"
-            );
-            String addedText = movieCard.locator("div.notification").textContent().trim();
-            assertThat(addedText)
+            Locator notification = firstMovieCard.locator("div.notification");
+            notification.waitFor(new Locator.WaitForOptions().setTimeout(3000));
+            assertThat(notification.isVisible())
+                    .as("Notification should appear after adding favorite")
+                    .isTrue();
+
+            String notificationText = notification.textContent();
+            System.out.println("Notification text: " + notificationText);
+            assertThat(notificationText)
                     .as("Notification should contain text")
-                    .isEqualTo("Added to favorite");
+                    .isEqualTo(" Added to favorite ");
 
             // 7. Navigate to the favorites
             menuButton.click();
@@ -290,19 +293,20 @@ class UiE2eTest {
                     new Page.GetByRoleOptions().setName("Favorites"));
             moviesListMenuItem2.click();
 
-            Locator favoriteList = page.locator("seed-movie-list");
+            Locator favoriteList = page.locator("seed-favorite-list");
             favoriteList.waitFor();
 
             page.waitForFunction("() => document.querySelectorAll('seed-movie-list-item').length > 0");
             Locator movieItems2 = page.locator("seed-movie-list-item");
             int movieCount2 = movieItems2.count();
-            assertThat(movieCount2).as("22 movie items should be rendered").isEqualTo(1);
+            assertThat(movieCount2).as("1 movie item should be rendered").isEqualTo(1);
 
-            Locator favoriteCard = movieItems2.nth(0);
+            // Identify first film
+            Locator firstFavoriteCard = movieItems.first();
 
-            String favoriteTitle = favoriteCard.locator("h2").textContent();
+            String favoriteTitle = firstFavoriteCard.locator("h2").textContent();
 
-            assertThat(favoriteTitle).isEqualTo(favoriteCard);
+            assertThat(favoriteTitle).isEqualTo(movieTitle);
         }
 
     }

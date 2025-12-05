@@ -1,9 +1,5 @@
 import {Component} from '@angular/core';
 import {RouterModule} from '@angular/router';
-import {MatSidenavModule} from "@angular/material/sidenav";
-import {MatToolbar} from "@angular/material/toolbar";
-import {MatNavList} from "@angular/material/list";
-import {MatIconModule} from "@angular/material/icon";
 import {MatMenuModule} from "@angular/material/menu";
 
 @Component({
