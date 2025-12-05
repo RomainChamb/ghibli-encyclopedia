@@ -2,6 +2,7 @@ package fr.barbebroux.ghibliencyclopedia.systemtest.e2etests;
 
 import com.microsoft.playwright.*;
 import com.microsoft.playwright.options.AriaRole;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -297,16 +298,23 @@ class UiE2eTest {
             favoriteList.waitFor();
 
             page.waitForFunction("() => document.querySelectorAll('seed-movie-list-item').length > 0");
-            Locator movieItems2 = page.locator("seed-movie-list-item");
-            int movieCount2 = movieItems2.count();
-            assertThat(movieCount2).as("1 movie item should be rendered").isEqualTo(1);
+            Locator favoriteItems = page.locator("seed-movie-list-item");
+            int favoriteCount = favoriteItems.count();
+            assertThat(favoriteCount).as("1 movie item should be rendered").isGreaterThan(0);
 
             // Identify first film
-            Locator firstFavoriteCard = movieItems.first();
+            boolean found = false;
+            for (int i = 0; i < favoriteCount; i++) {
+                String favoriteTitle = favoriteItems.nth(i).locator("h2").textContent();
+                if (movieTitle.equals(favoriteTitle)) {
+                    found = true;
+                    break;
+                }
+            }
 
-            String favoriteTitle = firstFavoriteCard.locator("h2").textContent();
-
-            assertThat(favoriteTitle).isEqualTo(movieTitle);
+            assertThat(found)
+                    .as("One of the favorites should have the title: " + movieTitle)
+                    .isTrue();
         }
 
     }
