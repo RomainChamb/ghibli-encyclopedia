@@ -10,6 +10,7 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.time.LocalDate;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -127,20 +128,64 @@ class ApiE2eTest {
 
     @Test
     void toggleFavorite_shouldReturnErrorIfBodyTypeIsInvalid() throws Exception {
-        String nullIdJson = "{\"title\": \"Castle in the sky\"}";
+        String invalidTypeId = "{\"id\": \"Castle in the sky\"}";
 
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(new URI("http://localhost:8080/api/favorites"))
                 .header("Content-Type", "application/json")
-                .POST(HttpRequest.BodyPublishers.ofString(nullIdJson))
+                .POST(HttpRequest.BodyPublishers.ofString(invalidTypeId))
                 .build();
 
         // Act
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
 
         assertThat(response.statusCode())
-                .as("Response for unknown ID should be 404 or 400")
-                .isIn(400, 404);
+                .as("Response for invalid type should be 400")
+                .isEqualTo(400);
+    }
+
+    @Test
+    void getFavoriteShouldReturnDateYYYY_MM_DD() throws Exception {
+        String uuid = "12cfb892-aac0-4c5b-94af-521852e46d6a";
+        String movieId = String.format("{\"id\": \"%s\"}", uuid);
+
+        HttpClient client = HttpClient.newHttpClient();
+
+        // POST favorite
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(new URI("http://localhost:8080/api/favorites"))
+                .header("Content-Type", "application/json")
+                .POST(HttpRequest.BodyPublishers.ofString(movieId))
+                .build();
+
+        HttpResponse<String> response =
+                client.send(request, HttpResponse.BodyHandlers.ofString());
+
+        assertThat(response.statusCode())
+                .as("Favorite has been saved")
+                .isIn(200, 201);
+
+        // GET favorites
+        HttpRequest getRequest = HttpRequest.newBuilder()
+                .uri(new URI("http://localhost:8080/api/favorites"))
+                .GET()
+                .build();
+
+        HttpResponse<String> getResponse =
+                client.send(getRequest, HttpResponse.BodyHandlers.ofString());
+
+        assertThat(getResponse.statusCode())
+                .as("Favorites have been found")
+                .isEqualTo(200);
+
+        String body = getResponse.body();
+
+        // Assert movie id
+        assertThat(body).contains(uuid);
+
+        // Assert date (only YYYY-MM-DD)
+        String today = LocalDate.now().toString();
+        assertThat(body).contains(today);
     }
 }

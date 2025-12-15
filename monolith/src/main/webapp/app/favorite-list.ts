@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, inject } from '@angular/core';
+import { Component, inject, input } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { Movie } from './movie';
 import { map } from 'rxjs';
@@ -23,6 +23,11 @@ type MovieApi = {
   url: string;
 }
 
+type FavoriteApi = {
+  movie: MovieApi,
+  addedDate: string
+}
+
 @Component({
   selector: 'seed-favorite-list',
   imports: [MovieListItem],
@@ -35,30 +40,41 @@ type MovieApi = {
 export class FavoriteList {
   private readonly _http = inject(HttpClient);
 
-  movies = toSignal(this._http.get<Movie[]>('/api/favorites').pipe(map(toMovieList)), {initialValue: []});
+  movies = toSignal(this._http.get<FavoriteApi[]>('/api/favorites').pipe(map(toMovieList)), {initialValue: []});
 }
 
 const toMovieList = (input: unknown): Movie[] => {
   if(!Array.isArray(input)) return [];
-  return input.filter((item) => isMovieApi(item)).map(
-    (movieApi): Movie => ({
-      id: movieApi.id,
-      title: movieApi.title,
-      originalTitle: movieApi.original_title,
-      originalTitleRomanised: movieApi.original_title_romanised,
-      description: movieApi.description,
-      director: movieApi.director,
-      producer: movieApi.producer,
-      releaseDate: Number(movieApi.release_date),
-      runningTime: Number(movieApi.running_time),
-      rtScore: Number(movieApi.rt_score),
-      people: movieApi.people,
-      species: movieApi.species,
-      locations: movieApi.locations,
-      vehicles: movieApi.vehicles
-    })
-  );
+  return input
+    .filter(isFavoriteApi)
+    .map((favorite): Movie => {
+      const movieApi = favorite.movie;
+
+
+      return {
+        id: movieApi.id,
+        title: movieApi.title,
+        originalTitle: movieApi.original_title,
+        originalTitleRomanised: movieApi.original_title_romanised,
+        description: movieApi.description,
+        director: movieApi.director,
+        producer: movieApi.producer,
+        releaseDate: Number(movieApi.release_date),
+        runningTime: Number(movieApi.running_time),
+        rtScore: Number(movieApi.rt_score),
+        people: movieApi.people,
+        species: movieApi.species,
+        locations: movieApi.locations,
+        vehicles: movieApi.vehicles
+      };
+    });
 };
+
+const isFavoriteApi = (input: unknown): input is FavoriteApi => typeof input === 'object'
+  && input !== null
+  && 'movie' in input
+  && 'addedDate' in input
+  && isMovieApi((input as any).movie);
 
 const isMovieApi = (input: unknown): input is MovieApi => (typeof input === 'object'
   && input !== null
