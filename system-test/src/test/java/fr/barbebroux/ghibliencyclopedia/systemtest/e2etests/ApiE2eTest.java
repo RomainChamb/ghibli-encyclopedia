@@ -188,4 +188,61 @@ class ApiE2eTest {
         String today = LocalDate.now().toString();
         assertThat(body).contains(today);
     }
+
+    @Test
+    void getReview_shouldReturnCommentAndScore() throws Exception {
+        // Test constants
+        String movieId = "758bf02e-3122-46e0-884e-67cf83df1786";
+        String testComment = "Amazing movie with beautiful animation!";
+        Integer testScore = 5;
+
+        HttpClient client = HttpClient.newHttpClient();
+
+        // POST review
+        String reviewRequestJson = String.format(
+            "{\"movieId\": \"%s\", \"comment\": \"%s\", \"score\": %d}", 
+            movieId, testComment, testScore
+        );
+
+        HttpRequest postRequest = HttpRequest.newBuilder()
+            .uri(new URI("http://localhost:8080/api/movies/" + movieId + "/reviews"))
+            .header("Content-Type", "application/json")
+            .POST(HttpRequest.BodyPublishers.ofString(reviewRequestJson))
+            .build();
+
+        HttpResponse<String> postResponse = client.send(postRequest, HttpResponse.BodyHandlers.ofString());
+
+        assertThat(postResponse.statusCode())
+            .as("Review should be created successfully")
+            .isEqualTo(201);
+
+        // Extract reviewId
+        ObjectMapper postMapper = new ObjectMapper();
+        JsonNode postResponseJson = postMapper.readTree(postResponse.body());
+        String reviewId = postResponseJson.get("reviewId").asText();
+
+        // GET review
+        HttpRequest getRequest = HttpRequest.newBuilder()
+            .uri(new URI("http://localhost:8080/api/movies/" + movieId + "/reviews/" + reviewId))
+            .GET()
+            .build();
+
+        HttpResponse<String> getResponse = client.send(getRequest, HttpResponse.BodyHandlers.ofString());
+
+        assertThat(getResponse.statusCode())
+            .as("Review should be retrieved successfully")
+            .isEqualTo(200);
+
+        // Assert equality on comment and score
+        ObjectMapper getMapper = new ObjectMapper();
+        JsonNode getResponseJson = getMapper.readTree(getResponse.body());
+
+        assertThat(getResponseJson.get("comment").asText())
+            .as("Review comment should match exactly")
+            .isEqualTo(testComment);
+
+        assertThat(getResponseJson.get("score").asInt())
+            .as("Review score should match exactly")
+            .isEqualTo(testScore);
+    }
 }
