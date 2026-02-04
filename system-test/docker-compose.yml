@@ -12,9 +12,7 @@ services:
       - ghibli-network
 
   monolith:
-    build:
-      context: ../monolith
-      dockerfile: Dockerfile
+    image: ghcr.io/romainchamb/ghibli-encyclopedia/monolith:latest
     ports:
       - "8080:8080"
     depends_on:
