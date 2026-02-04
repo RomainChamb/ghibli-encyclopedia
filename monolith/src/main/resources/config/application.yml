@@ -27,3 +27,6 @@ server:
 movie:
   api:
     host: ${MOVIE_API_HOST:https://ghibliapi.vercel.app}
+
+jsonserver:
+  url: ${JSON_SERVER_URL:http://localhost:3001}
