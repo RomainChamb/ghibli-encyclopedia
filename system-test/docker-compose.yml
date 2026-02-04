@@ -1,6 +1,27 @@
 services:
 
+  json-server:
+    build:
+      context: ../json-server
+      dockerfile: Dockerfile
+    ports:
+      - "3001:3001"
+    volumes:
+      - ../json-server/db.json:/data/db.json
+    networks:
+      - ghibli-network
+
   monolith:
     image: ghcr.io/romainchamb/ghibli-encyclopedia/monolith:latest
     ports:
       - "8080:8080"
+    depends_on:
+      - json-server
+    environment:
+      - JSON_SERVER_URL=http://json-server:3001
+    networks:
+      - ghibli-network
+
+networks:
+  ghibli-network:
+    driver: bridge
