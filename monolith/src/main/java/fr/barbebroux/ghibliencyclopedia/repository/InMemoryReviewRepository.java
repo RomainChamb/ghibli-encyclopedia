@@ -11,7 +11,7 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
-@Repository
+// @Repository - Replaced by JsonServerReviewRepository
 public class InMemoryReviewRepository implements ReviewRepository {
     
     private final Map<String, ReviewDTO> reviews = new ConcurrentHashMap<>();

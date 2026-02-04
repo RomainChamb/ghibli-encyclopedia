@@ -1,6 +1,36 @@
 services:
 
+  json-server:
+    build:
+      context: ../json-server
+      dockerfile: Dockerfile
+    ports:
+      - "3001:3001"
+    volumes:
+      - ../json-server/db.json:/data/db.json
+    # Health check temporarily disabled for testing
+    # healthcheck:
+    #   test: ["CMD", "node", "-e", "const http = require('http'); http.get('http://localhost:3001/reviews', (res) => { process.exit(res.statusCode === 200 ? 0 : 1) }).on('error', () => process.exit(1))"]
+    #   interval: 10s
+    #   timeout: 5s
+    #   retries: 5
+    #   start_period: 10s
+    networks:
+      - ghibli-network
+
   monolith:
-    image: ghcr.io/romainchamb/ghibli-encyclopedia/monolith:latest
+    build:
+      context: ../monolith
+      dockerfile: Dockerfile
     ports:
       - "8080:8080"
+    depends_on:
+      - json-server
+    environment:
+      - JSON_SERVER_URL=http://json-server:3001
+    networks:
+      - ghibli-network
+
+networks:
+  ghibli-network:
+    driver: bridge

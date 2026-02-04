@@ -2,6 +2,9 @@ package fr.barbebroux.ghibliencyclopedia.systemtest.e2etests;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import fr.barbebroux.ghibliencyclopedia.systemtest.helpers.ReviewTestHelper;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -14,8 +17,26 @@ import java.time.LocalDate;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
 class ApiE2eTest {
+
+    private ReviewTestHelper reviewTestHelper;
+
+    @BeforeEach
+    void setUp() {
+        reviewTestHelper = new ReviewTestHelper();
+        // Skip review tests if json-server is not available
+        assumeTrue(reviewTestHelper.isJsonServerAvailable(), 
+                  "json-server is not available, skipping review tests");
+    }
+
+    @AfterEach
+    void tearDown() {
+        if (reviewTestHelper != null) {
+            reviewTestHelper.cleanupAllReviews();
+        }
+    }
 
     @Test
     void getMovies_shouldReturnMovieWithExpectedFormat() throws Exception {
@@ -221,6 +242,11 @@ class ApiE2eTest {
         JsonNode postResponseJson = postMapper.readTree(postResponse.body());
         String reviewId = postResponseJson.get("reviewId").asText();
 
+        // Verify reviewId is not empty
+        assertThat(reviewId)
+            .as("Review ID should be generated")
+            .isNotEmpty();
+
         // GET review
         HttpRequest getRequest = HttpRequest.newBuilder()
             .uri(new URI("http://localhost:8080/api/movies/" + movieId + "/reviews/" + reviewId))
@@ -244,5 +270,158 @@ class ApiE2eTest {
         assertThat(getResponseJson.get("score").asInt())
             .as("Review score should match exactly")
             .isEqualTo(testScore);
+
+        // Verify movieId matches
+        assertThat(getResponseJson.get("movieId").asText())
+            .as("Movie ID should match exactly")
+            .isEqualTo(movieId);
+
+        // Verify createdAt is present and valid
+        assertThat(getResponseJson.get("createdAt"))
+            .as("createdAt should be present")
+            .isNotNull();
+    }
+
+    @Test
+    void getReviewsByMovie_shouldReturnAllReviewsForMovie() throws Exception {
+        String movieId = "758bf02e-3122-46e0-884e-67cf83df1786";
+        HttpClient client = HttpClient.newHttpClient();
+
+        // Create multiple reviews for the same movie
+        for (int i = 1; i <= 3; i++) {
+            String reviewRequestJson = String.format(
+                "{\"movieId\": \"%s\", \"comment\": \"Review %d\", \"score\": %d}", 
+                movieId, i, i
+            );
+
+            HttpRequest postRequest = HttpRequest.newBuilder()
+                .uri(new URI("http://localhost:8080/api/movies/" + movieId + "/reviews"))
+                .header("Content-Type", "application/json")
+                .POST(HttpRequest.BodyPublishers.ofString(reviewRequestJson))
+                .build();
+
+            HttpResponse<String> postResponse = client.send(postRequest, HttpResponse.BodyHandlers.ofString());
+            assertThat(postResponse.statusCode()).isEqualTo(201);
+        }
+
+        // Get all reviews for the movie
+        HttpRequest getRequest = HttpRequest.newBuilder()
+            .uri(new URI("http://localhost:8080/api/movies/" + movieId + "/reviews"))
+            .GET()
+            .build();
+
+        HttpResponse<String> getResponse = client.send(getRequest, HttpResponse.BodyHandlers.ofString());
+
+        assertThat(getResponse.statusCode())
+            .as("Reviews should be retrieved successfully")
+            .isEqualTo(200);
+
+        // Parse response and verify we have at least 3 reviews
+        ObjectMapper mapper = new ObjectMapper();
+        JsonNode reviewsArray = mapper.readTree(getResponse.body());
+        
+        assertThat(reviewsArray.isArray())
+            .as("Response should be an array")
+            .isTrue();
+            
+        assertThat(reviewsArray.size())
+            .as("Should have at least 3 reviews")
+            .isGreaterThanOrEqualTo(3);
+    }
+
+    @Test
+    void createReview_shouldReturnErrorForInvalidScore() throws Exception {
+        String movieId = "758bf02e-3122-46e0-884e-67cf83df1786";
+        HttpClient client = HttpClient.newHttpClient();
+
+        // Try to create a review with invalid score (6, which is > 5)
+        String invalidReviewJson = String.format(
+            "{\"movieId\": \"%s\", \"comment\": \"Great movie\", \"score\": 6}", 
+            movieId
+        );
+
+        HttpRequest postRequest = HttpRequest.newBuilder()
+            .uri(new URI("http://localhost:8080/api/movies/" + movieId + "/reviews"))
+            .header("Content-Type", "application/json")
+            .POST(HttpRequest.BodyPublishers.ofString(invalidReviewJson))
+            .build();
+
+        HttpResponse<String> response = client.send(postRequest, HttpResponse.BodyHandlers.ofString());
+
+        assertThat(response.statusCode())
+            .as("Should return bad request for invalid score")
+            .isEqualTo(400);
+    }
+
+    @Test
+    void createReview_shouldReturnErrorForMissingMovieId() throws Exception {
+        HttpClient client = HttpClient.newHttpClient();
+
+        // Try to create a review without movieId
+        String invalidReviewJson = "{\"comment\": \"Great movie\", \"score\": 5}";
+
+        HttpRequest postRequest = HttpRequest.newBuilder()
+            .uri(new URI("http://localhost:8080/api/movies/nonexistent/reviews"))
+            .header("Content-Type", "application/json")
+            .POST(HttpRequest.BodyPublishers.ofString(invalidReviewJson))
+            .build();
+
+        HttpResponse<String> response = client.send(postRequest, HttpResponse.BodyHandlers.ofString());
+
+        assertThat(response.statusCode())
+            .as("Should return bad request for missing movieId")
+            .isIn(400, 404);
+    }
+
+    @Test
+    void getMovieWithReviews_shouldIncludeStatistics() throws Exception {
+        String movieId = "758bf02e-3122-46e0-884e-67cf83df1786";
+        HttpClient client = HttpClient.newHttpClient();
+
+        // Create a review
+        String reviewRequestJson = String.format(
+            "{\"movieId\": \"%s\", \"comment\": \"Excellent movie!\", \"score\": 5}", 
+            movieId
+        );
+
+        HttpRequest postRequest = HttpRequest.newBuilder()
+            .uri(new URI("http://localhost:8080/api/movies/" + movieId + "/reviews"))
+            .header("Content-Type", "application/json")
+            .POST(HttpRequest.BodyPublishers.ofString(reviewRequestJson))
+            .build();
+
+        HttpResponse<String> postResponse = client.send(postRequest, HttpResponse.BodyHandlers.ofString());
+        assertThat(postResponse.statusCode()).isEqualTo(201);
+
+        // Get movie with reviews and statistics
+        HttpRequest getRequest = HttpRequest.newBuilder()
+            .uri(new URI("http://localhost:8080/api/movies/" + movieId + "?includeReviews=true"))
+            .GET()
+            .build();
+
+        HttpResponse<String> getResponse = client.send(getRequest, HttpResponse.BodyHandlers.ofString());
+
+        assertThat(getResponse.statusCode()).isEqualTo(200);
+
+        // Parse response and verify statistics are present
+        ObjectMapper mapper = new ObjectMapper();
+        JsonNode responseJson = mapper.readTree(getResponse.body());
+        
+        assertThat(responseJson.get("reviews"))
+            .as("Reviews should be included")
+            .isNotNull();
+            
+        assertThat(responseJson.get("reviewStatistics"))
+            .as("Statistics should be included")
+            .isNotNull();
+            
+        JsonNode stats = responseJson.get("reviewStatistics");
+        assertThat(stats.get("averageScore").asDouble())
+            .as("Average score should be 5.0")
+            .isEqualTo(5.0);
+            
+        assertThat(stats.get("totalReviews").asInt())
+            .as("Total reviews should be 1")
+            .isEqualTo(1);
     }
 }
